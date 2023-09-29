@@ -3,7 +3,13 @@
 </script>
 
 <section>
-    <span id="speaker_notes" placeholder="Speaker notes..." contenteditable="true"></span>
+    <span
+        id="speaker_notes"
+        placeholder="Speaker notes..."
+        contenteditable="true"
+        bind:textContent={notes}
+    >
+    </span>
 </section>
 
 <style lang="scss">
