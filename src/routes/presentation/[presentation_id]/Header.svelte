@@ -5,7 +5,7 @@
 </script>
 
 <header>
-    <a id="home" href="/">
+    <a id="home" href="/" title="Home">
         <img src="/favicon.png" alt="home"/>
     </a>
     <menu id="titlebar">
