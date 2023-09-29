@@ -3,7 +3,7 @@
 </script>
 
 <main>
-    <article>
+    <article style="background-color: {slide.background};">
     </article>
 </main>
 
@@ -20,7 +20,6 @@
             aspect-ratio: 16 / 9;
             width: 800px;
             position: relative;
-            background-color: brown;
         }
     }
 </style>
