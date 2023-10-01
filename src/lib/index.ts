@@ -1,19 +1,19 @@
 import type { Color } from "./util";
 
 /** The whole information about the presentation */
-type Presentation = {
+export type Presentation = {
     info: PresentationInfo,
     styles: Record<string, Style>,
     slides: Slide[],
 }
 
 /** Main information about presentation */
-type PresentationInfo = {
+export type PresentationInfo = {
     name: string,
     author: string,
 }
 /** Style of text fragment */
-type Style = {
+export type Style = {
     font: string,
     size: number,
     bold: boolean,
@@ -23,36 +23,36 @@ type Style = {
     background: Color | URL,
 }
 /** Object located on slide */
-type SlideObject = {
+export type SlideObject = {
     kind: string,
     position: { x: number, y: number },
     size: { w: number, h: number },
 }
 
-class Slide {
+export class Slide {
     background: Color | URL = "#FFFFFF";
     notes: string = "";
     objects: Object[] = [];
 }
 
-type TextObj = {
+export type TextObj = {
 
 }
 
-type ImageObj = {
+export type ImageObj = {
     src: URL,
     alt?: string,
 }
 
-type VideoObj = {
+export type VideoObj = {
     src: URL,
     alt?: string,
 }
 
-type AudioObj = {
+export type AudioObj = {
     src: URL,
 }
 
-type QrCode = {
+export type QrCode = {
 
 }

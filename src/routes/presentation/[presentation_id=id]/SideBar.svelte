@@ -1,4 +1,6 @@
 <script lang="ts">
+    import type { Slide } from "$lib";
+
     export let current_slide: number;
     export let slides: Slide[];
     function style(i: number) {

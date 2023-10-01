@@ -1,3 +1,5 @@
+import type { Presentation, PresentationInfo } from "$lib";
+
 const data: Record<number, Presentation> = {
     25: {
         info: {

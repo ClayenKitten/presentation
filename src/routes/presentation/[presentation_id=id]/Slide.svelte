@@ -1,4 +1,6 @@
 <script lang="ts">
+    import type { Slide } from "$lib";
+
     export let slide: Slide;
     $: style = slide.background instanceof URL ? `url(${slide.background})` : slide.background;
 </script>

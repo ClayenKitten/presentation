@@ -6,6 +6,7 @@
     import { page } from "$app/stores";
     import { error } from "@sveltejs/kit";
     import { query_presentation } from "$lib/data";
+    import type { Presentation } from "$lib";
 
     let id = Number($page.params["presentation_id"]);
     let _presentation = query_presentation(id);
