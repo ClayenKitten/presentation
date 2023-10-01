@@ -1,9 +1,10 @@
 <script lang="ts">
     export let slide: Slide;
+    $: style = slide.background instanceof URL ? `url(${slide.background})` : slide.background;
 </script>
 
 <main>
-    <article style="background-color: {slide.background};">
+    <article {style}>
     </article>
 </main>
 

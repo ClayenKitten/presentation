@@ -1,57 +1,7 @@
 <script lang="ts">
-    import { DownloadSimple, Gear } from "phosphor-svelte";
+    import { query_presentation_infos } from "$lib/data";
 
-    const presentations: Presentation[] = [
-        {
-            info: {
-                name: "Pres1",
-                author: "SuperAuthor",
-            },
-            slides: [],
-            styles: {},
-        },
-        {
-            info: {
-                name: "Pres2",
-                author: "NotSuperAuthor",
-            },
-            slides: [],
-            styles: {},
-        },
-
-        {
-            info: {
-                name: "Pres2",
-                author: "NotSuperAuthor",
-            },
-            slides: [],
-            styles: {},
-        },
-        {
-            info: {
-                name: "Pres2",
-                author: "NotSuperAuthor",
-            },
-            slides: [],
-            styles: {},
-        },
-        {
-            info: {
-                name: "Pres2",
-                author: "NotSuperAuthor",
-            },
-            slides: [],
-            styles: {},
-        },
-        {
-            info: {
-                name: "Pres2",
-                author: "NotSuperAuthor",
-            },
-            slides: [],
-            styles: {},
-        },
-    ]
+    let presentations = query_presentation_infos();
 </script>
 
 <div id="wrapper">
@@ -61,19 +11,19 @@
         <input type="search"/>
         <menu>
             <button title="Download archive">
-                <DownloadSimple size="24px"/>
+                <i class="ph-bold ph-download-simple"></i>
             </button>
             <button title="Settings">
-                <Gear size="24px"/>
+                <i class="ph-bold ph-gear"></i>
             </button>
         </menu>
     </header>
     <main>
-        {#each presentations as presentation}
-            <div>
+        {#each Object.entries(presentations) as [id, presentation]}
+            <a class="entry" href="/presentation/{id}">
                 <img/>
-                <h2>{presentation.info.name}</h2>
-            </div>
+                <h2>{presentation.name}</h2>
+            </a>
         {/each}        
     </main>
 </div>
@@ -131,7 +81,7 @@
         align-content: start;
         gap: 10px;
 
-        div {
+        .entry {
             height: 190px;
             background-color: white;
         }

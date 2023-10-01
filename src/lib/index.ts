@@ -27,11 +27,10 @@ type SlideObject = {
     size: { w: number, h: number },
 }
 
-/** A signle slide */
-type Slide = {
-    background: string | URL,
-    notes: string,
-    objects: Object[],
+class Slide {
+    background: Color | URL = "#FFFFFF";
+    notes: string = "";
+    objects: Object[] = [];
 }
 
 type TextObj = {
@@ -61,3 +60,19 @@ type Color = RGB | RGBA | HEX;
 type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
 type HEX = `#${string}`;
+
+export class Hotkey {
+    ctrl: boolean = false;
+    shift: boolean = false;
+    key: string;
+
+    constructor(init: { key: string, ctrl?: boolean, shift?: boolean }) {
+        this.key = init.key;
+        if (init.ctrl) {
+            this.ctrl = init.ctrl;
+        }
+        if (init.shift) {
+            this.shift = init.shift;
+        }
+    }
+}

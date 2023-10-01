@@ -1,25 +1,29 @@
 <script lang="ts">
-    import { ArrowLeft, GridFour } from "phosphor-svelte";
-    import { slide } from "svelte/transition";
-
+    export let current_slide: number;
     export let slides: Slide[];
+    function style(i: number) {
+        let slide = slides[i];
+        return `background: ${slide.background instanceof URL ? `url(${slide.background})` : slide.background};`;
+    }
 </script>
 
 <aside>
     <ol id="slide-list">
-        {#each slides as slide, i }
+        {#each slides as slide, i}
             <li>
-                <div class="slide-number">{i+1}</div>
-                <div class="slide-preview" style="background-color: {slide.background};"></div>
+                <button on:click={(_) => current_slide = i}>
+                    <div class="slide-number">{i+1}</div>
+                    <div class="slide-preview" style={style(i)}></div>
+                </button>
             </li>
         {/each}
     </ol>
     <menu>
         <button title="Grid view">
-            <GridFour size="32px"/>
+            <i class="ph-bold ph-grid-four"></i>
         </button>
         <button title="Hide slide list">
-            <ArrowLeft size="32px"/>
+            <i class="ph-bold ph-arrow-left"></i>
         </button>
     </menu>
 </aside>
@@ -47,14 +51,24 @@
             gap: var(--spacing);
 
             > li {
+                display: contents;
                 flex: 0 0 auto;
-                
-                display: flex;
-                gap: calc(var(--spacing) / 2);
+                cursor: pointer;
+
+                button {    
+                    display: flex;
+                    gap: calc(var(--spacing) / 2);
+                    background: none;
+                    border: none;
+                }
 
                 .slide-number {
                     flex: 0 1 20px;
                     text-align: end;
+                }
+
+                &:hover .slide-number {
+                    font-weight: bolder;
                 }
 
                 .slide-preview {
@@ -64,6 +78,10 @@
 
                     border: solid 1px #DDD;
                     border-radius: 5px;
+                }
+
+                &:hover .slide-preview {
+                    border-color: blue;
                 }
             }
         }
