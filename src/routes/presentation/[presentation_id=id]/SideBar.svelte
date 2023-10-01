@@ -5,7 +5,9 @@
     export let slides: Slide[];
     function style(i: number) {
         let slide = slides[i];
-        return `background: ${slide.background instanceof URL ? `url(${slide.background})` : slide.background};`;
+        return slide.background instanceof URL
+            ? `background-image: url(${slide.background})`
+            : `background-color: ${slide.background}`;
     }
 </script>
 
@@ -13,8 +15,8 @@
     <ol id="slide-list">
         {#each slides as slide, i}
             <li>
-                <button on:click={(_) => current_slide = i}>
-                    <div class="slide-number">{i+1}</div>
+                <button on:click={(_) => (current_slide = i)}>
+                    <div class="slide-number">{i + 1}</div>
                     <div class="slide-preview" style={style(i)}></div>
                 </button>
             </li>
@@ -80,6 +82,7 @@
 
                     border: solid 1px #DDD;
                     border-radius: 5px;
+                    background-size: 100% 100%;
                 }
 
                 &:hover .slide-preview {
@@ -97,7 +100,7 @@
             margin: 0;
             background-color: gray;
 
-            >button {
+            > button {
                 height: 40px;
                 width: 40px;
                 border: solid gray 1px;

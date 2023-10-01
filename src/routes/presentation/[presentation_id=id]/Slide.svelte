@@ -2,12 +2,14 @@
     import type { Slide } from "$lib";
 
     export let slide: Slide;
-    $: style = slide.background instanceof URL ? `url(${slide.background})` : slide.background;
+    $: style =
+        slide.background instanceof URL
+            ? `background-image: url(${slide.background})`
+            : `background-color: ${slide.background}`;
 </script>
 
 <main>
-    <article {style}>
-    </article>
+    <article {style} />
 </main>
 
 <style lang="scss">
@@ -23,6 +25,7 @@
             aspect-ratio: 16 / 9;
             width: 800px;
             position: relative;
+            background-size: 100% 100%;
         }
     }
 </style>
