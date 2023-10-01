@@ -25,7 +25,7 @@
         border: none;
 
         display: flex;
-        font-weight: bolder;
+        font-size: 14px;
         justify-content: center;
         align-items: center;
     }

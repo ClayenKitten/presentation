@@ -93,6 +93,7 @@
         }
         & :nth-child(2) {
             flex: 1;
+            font-size: 14px;
             text-align: start;
         }
     }
