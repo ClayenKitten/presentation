@@ -1,5 +1,6 @@
 <script lang="ts">
     import MenuBar from "$lib/editor/MenuBar.svelte";
+    import ToolBar from "$lib/editor/ToolBar.svelte";
     import i18n from "$lib/translation";
 
     export let title: String;
@@ -20,7 +21,7 @@
         </button>
     </menu>
     <MenuBar/>
-    <menu id="toolbar"></menu>
+    <ToolBar/>
 </header>
 
 <style lang="scss">
@@ -83,10 +84,6 @@
                         background-color: #F0F0F0;
                     }
                 }
-            }
-            &#toolbar {
-                grid-area: toolbar;
-                background-color: yellow;
             }
         }
     }
