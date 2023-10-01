@@ -1,3 +1,4 @@
+import type { SlideObject } from "./slide_objects";
 import type { Color } from "./util";
 
 /** The whole information about the presentation */
@@ -22,37 +23,9 @@ export type Style = {
     color: Color,
     background: Color | URL,
 }
-/** Object located on slide */
-export type SlideObject = {
-    kind: string,
-    position: { x: number, y: number },
-    size: { w: number, h: number },
-}
 
 export class Slide {
     background: Color | URL = "#FFFFFF";
     notes: string = "";
-    objects: Object[] = [];
-}
-
-export type TextObj = {
-
-}
-
-export type ImageObj = {
-    src: URL,
-    alt?: string,
-}
-
-export type VideoObj = {
-    src: URL,
-    alt?: string,
-}
-
-export type AudioObj = {
-    src: URL,
-}
-
-export type QrCode = {
-
+    objects: SlideObject[] = [];
 }
