@@ -1,7 +1,7 @@
 <script lang="ts">
     import { setContext } from "svelte";
-    import TopLevelEntry from "./TopLevelEntry.svelte";
-    import { Entry, TopLevelEntry as TopLevel } from "./types";
+    import TopLevelEntry from "./MenuBar/TopLevelEntry.svelte";
+    import { Entry, TopLevelEntry as TopLevel } from "./MenuBar/types";
     import { Hotkey } from "$lib/util";
 
     setContext("hotkeys", {
