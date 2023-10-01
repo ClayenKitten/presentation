@@ -3,7 +3,7 @@
     import { getContext } from "svelte";
     import type { Entry } from "./types";
     import i18n from "$lib/translation";
-    import type { Hotkey } from "$lib";
+    import type { Hotkey } from "$lib/util";
 
     export let entry: Entry;
     export let level: number = 0;

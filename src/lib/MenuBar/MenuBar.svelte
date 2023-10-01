@@ -2,7 +2,7 @@
     import { setContext } from "svelte";
     import TopLevelEntry from "./TopLevelEntry.svelte";
     import { Entry, TopLevelEntry as TopLevel } from "./types";
-    import { Hotkey } from "$lib";
+    import { Hotkey } from "$lib/util";
 
     setContext("hotkeys", {
         "open": new Hotkey({ ctrl: true, key: "O" }),

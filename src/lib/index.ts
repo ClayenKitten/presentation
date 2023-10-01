@@ -1,3 +1,5 @@
+import type { Color } from "./util";
+
 /** The whole information about the presentation */
 type Presentation = {
     info: PresentationInfo,
@@ -53,26 +55,4 @@ type AudioObj = {
 
 type QrCode = {
 
-}
-
-// Utility types
-type Color = RGB | RGBA | HEX;
-type RGB = `rgb(${number}, ${number}, ${number})`;
-type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
-type HEX = `#${string}`;
-
-export class Hotkey {
-    ctrl: boolean = false;
-    shift: boolean = false;
-    key: string;
-
-    constructor(init: { key: string, ctrl?: boolean, shift?: boolean }) {
-        this.key = init.key;
-        if (init.ctrl) {
-            this.ctrl = init.ctrl;
-        }
-        if (init.shift) {
-            this.shift = init.shift;
-        }
-    }
 }
