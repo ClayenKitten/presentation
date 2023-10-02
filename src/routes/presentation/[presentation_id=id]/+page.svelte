@@ -19,11 +19,17 @@
         [slide_number, presentation],
         ([$slide_number, $presentation]) => $presentation.slides[$slide_number],
     );
+
+    let collapsed = false;
 </script>
 
-<div id="wrapper">
+<div id="wrapper" class:collapsed={collapsed}>
     <Header title={$presentation.info.name}/>
-    <SideBar bind:slide_number={$slide_number} presentation={$presentation}/>
+    <SideBar
+        bind:slide_number={$slide_number}
+        presentation={$presentation}
+        bind:collapsed={collapsed}
+    />
     <SlideView slide={$slide}/>
     <SpeakerNotes bind:notes={$slide.notes}/>
 </div>
@@ -35,10 +41,16 @@
 
 		display: grid;
 		grid-template-rows: 110px 1fr 60px;
-        grid-template-columns: 220px 1fr;
+        grid-template-columns: min-content 1fr;
         grid-template-areas:
             "head head"
             "side main"
             "side notes";
+        &.collapsed {
+            grid-template-areas:
+                "head head"
+                "main main"
+                "side notes";
+        }
     }
 </style>

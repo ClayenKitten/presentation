@@ -4,10 +4,12 @@
 
     export let slide_number: number;
     export let presentation: Presentation;
+
+    export let collapsed: boolean;
 </script>
 
 <aside>
-    <ol id="slide-list">
+    <ol class:collapsed={collapsed}>
         {#each presentation.slides as _, i}
             <SideBarPreview slide={presentation.slides[i]} bind:slide_number={slide_number} {i}/>
         {/each}
@@ -16,8 +18,12 @@
         <button title="Grid view">
             <i class="ph-bold ph-grid-four"></i>
         </button>
-        <button title="Hide slide list">
-            <i class="ph-bold ph-arrow-left"></i>
+        <button on:click={() => { collapsed = !collapsed; }} title="Hide slide list">
+            {#if collapsed}
+                <i class="ph-bold ph-arrow-right"></i>
+            {:else}
+                <i class="ph-bold ph-arrow-left"></i>
+            {/if}
         </button>
     </menu>
 </aside>
@@ -30,8 +36,9 @@
         display: flex;
         flex-direction: column;
 
-        #slide-list {
+        ol {
             --spacing: 16px;
+            width: 220px;
 
             flex: 1;
             overflow-y: scroll;
@@ -43,6 +50,13 @@
             margin: 0;
             padding: var(--spacing);
             gap: var(--spacing);
+
+            &.collapsed {
+                display: none;
+                & + menu {
+                    padding-right: 0;
+                }
+            }
         }
 
         menu {
@@ -55,9 +69,18 @@
             background-color: gray;
 
             > button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
                 height: 40px;
                 width: 40px;
                 border: solid gray 1px;
+                border-radius: 40px;
+
+                > i {
+                    font-size: 20px;
+                }
             }
         }
     }
