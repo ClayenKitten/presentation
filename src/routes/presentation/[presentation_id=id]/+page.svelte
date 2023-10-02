@@ -1,30 +1,31 @@
 <script lang="ts">
     import Header from "./Header.svelte";
-    import SideBar from "./SideBar.svelte";
+    import SideBar from "../../../lib/editor/SideBar.svelte";
     import SlideView from "./SlideView.svelte";
     import SpeakerNotes from "./SpeakerNotes.svelte";
     import { page } from "$app/stores";
     import { error } from "@sveltejs/kit";
     import { query_presentation } from "$lib/data";
-    import type { Presentation } from "$lib";
+    import { derived, get, writable } from "svelte/store";
 
     let id = Number($page.params["presentation_id"]);
     let _presentation = query_presentation(id);
-    let presentation: Presentation;
-    $: if (_presentation) {
-        presentation = _presentation;
-    } else {
+    if (!_presentation) {
         throw error(404, 'Not Found');
     }
-    let current_slide: number = 0;
-    $: slide = presentation.slides[current_slide];
+    let presentation = writable(_presentation);
+    let slide_number = writable(0);
+    let slide = derived(
+        [slide_number, presentation],
+        ([$slide_number, $presentation]) => $presentation.slides[$slide_number],
+    );
 </script>
 
 <div id="wrapper">
-    <Header title={presentation.info.name}/>
-    <SideBar bind:current_slide = {current_slide} slides = {presentation.slides}/>
-    <SlideView slide={slide}/>
-    <SpeakerNotes bind:notes = {slide.notes}/>
+    <Header title={$presentation.info.name}/>
+    <SideBar bind:slide_number={$slide_number} presentation={$presentation}/>
+    <SlideView slide={$slide}/>
+    <SpeakerNotes bind:notes={$slide.notes}/>
 </div>
 
 <style lang="scss">
