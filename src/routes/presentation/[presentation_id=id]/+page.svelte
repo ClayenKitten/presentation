@@ -1,7 +1,7 @@
 <script lang="ts">
     import Header from "./Header.svelte";
     import SideBar from "./SideBar.svelte";
-    import Slide from "./Slide.svelte";
+    import SlideView from "./SlideView.svelte";
     import SpeakerNotes from "./SpeakerNotes.svelte";
     import { page } from "$app/stores";
     import { error } from "@sveltejs/kit";
@@ -23,7 +23,7 @@
 <div id="wrapper">
     <Header title={presentation.info.name}/>
     <SideBar bind:current_slide = {current_slide} slides = {presentation.slides}/>
-    <Slide slide={slide}/>
+    <SlideView slide={slide}/>
     <SpeakerNotes bind:notes = {slide.notes}/>
 </div>
 
