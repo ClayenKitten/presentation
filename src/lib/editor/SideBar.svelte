@@ -53,9 +53,6 @@
 
             &.collapsed {
                 display: none;
-                & + menu {
-                    padding-right: 0;
-                }
             }
         }
 
@@ -66,7 +63,6 @@
 
             height: 40px;
             margin: 0;
-            background-color: gray;
 
             > button {
                 display: flex;
@@ -75,8 +71,14 @@
 
                 height: 40px;
                 width: 40px;
-                border: solid gray 1px;
                 border-radius: 40px;
+
+                background-color: white;
+                border: none;
+
+                &:hover {
+                    background-color: #eee;
+                }
 
                 > i {
                     font-size: 20px;

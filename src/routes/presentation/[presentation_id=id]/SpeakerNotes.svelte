@@ -3,22 +3,16 @@
 </script>
 
 <section>
-    <span
-        id="speaker_notes"
-        placeholder="Speaker notes..."
-        contenteditable="true"
-        bind:textContent={notes}
-    >
-    </span>
+    <textarea id="speaker_notes" placeholder="Speaker notes..." bind:value={notes}/>
 </section>
 
 <style lang="scss">
     section {
         grid-area: notes;
-        background-color: gray;
 
         display: flex;
         padding: 10px;
+        padding-left: 0px;
 
         #speaker_notes {
             flex: 1;
@@ -28,23 +22,15 @@
 
             overflow-y: scroll;
 
-            padding: 0 10px;
-            background-color: white;
-            border: solid gray 1px;
+            padding: 10px;
+            background-color: rgb(237, 242, 250);
+            border-radius: 10px;
+            border: none;
 
             overflow: auto;
             white-space: pre-wrap;
-
-            &:empty {
-                &:focus::before {
-                    content:  "\00a0";
-                }
-                &:not(:focus)::before {
-                    content: attr(placeholder);
-                    color: grey;
-                    font-style: italic;
-                }
-            }
+            resize: none;
+            font-size: 14px;
         }
     }
 </style>

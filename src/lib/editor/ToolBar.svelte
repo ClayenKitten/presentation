@@ -12,7 +12,6 @@
         box-sizing: border-box;
         grid-area: toolbar;
         padding: 10px;
-        border-bottom: solid gray 1px;
     }
     menu {
         width: 100%;
