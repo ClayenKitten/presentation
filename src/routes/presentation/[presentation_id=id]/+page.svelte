@@ -1,6 +1,6 @@
 <script lang="ts">
     import Header from "./Header.svelte";
-    import SideBar from "../../../lib/editor/SideBar.svelte";
+    import SideBar from "../../../lib/editor/SideBar/SideBar.svelte";
     import SlideView from "./SlideView.svelte";
     import SpeakerNotes from "./SpeakerNotes.svelte";
     import { page } from "$app/stores";

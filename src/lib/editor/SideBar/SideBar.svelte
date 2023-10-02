@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Presentation } from "$lib";
-    import SideBarPreview from "./SideBar/SideBarEntry.svelte";
+    import SideBarPreview from "./SideBarEntry.svelte";
 
     export let slide_number: number;
     export let presentation: Presentation;
