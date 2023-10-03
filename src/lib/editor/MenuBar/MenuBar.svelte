@@ -61,7 +61,7 @@
 <menu>
     <ul>
         {#each entries as entry}
-            <TopLevelEntry {entry} />
+            <TopLevelEntry {entry} on:action/>
         {/each}
     </ul>
 </menu>

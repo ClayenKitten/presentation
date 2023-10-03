@@ -20,7 +20,7 @@
             {i18n("access")}
         </button>
     </menu>
-    <MenuBar/>
+    <MenuBar on:action/>
     <ToolBar/>
 </header>
 

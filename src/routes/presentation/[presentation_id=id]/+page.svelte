@@ -6,7 +6,9 @@
     import { page } from "$app/stores";
     import { error } from "@sveltejs/kit";
     import { query_presentation } from "$lib/data";
-    import { derived, get, writable } from "svelte/store";
+    import { derived, writable } from "svelte/store";
+    import { Slide } from "$lib";
+    import type { ActionName } from "$lib/editor/actions/actions";
 
     let id = Number($page.params["presentation_id"]);
     let _presentation = query_presentation(id);
@@ -21,10 +23,33 @@
     );
 
     let collapsed = false;
+
+    function on_action(event: CustomEvent<ActionName>) {
+        let action_key = event.detail;
+        switch (action_key) {
+            case 'slide/new':
+                $presentation.slides.splice($slide_number + 1, 0, new Slide());
+                $slide_number += 1;
+                $presentation = $presentation;
+                break;
+            case 'slide/duplicate':
+                $presentation.slides.splice($slide_number, 0, $slide);
+                $slide_number += 1;
+                $presentation = $presentation;
+                break;
+            case 'slide/delete':
+                $presentation.slides.splice($slide_number, 1);
+                $presentation = $presentation;
+                break;
+            default:
+                console.error(`Unhandled action key: ${action_key}`);
+                break;
+        }
+    }
 </script>
 
 <div id="wrapper" class:collapsed={collapsed}>
-    <Header title={$presentation.info.name}/>
+    <Header title={$presentation.info.name} on:action={on_action}/>
     <SideBar
         bind:slide_number={$slide_number}
         presentation={$presentation}

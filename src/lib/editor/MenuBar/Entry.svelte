@@ -1,6 +1,6 @@
 <script lang="ts">
     import Kbd from "$lib/Kbd.svelte";
-    import { getContext } from "svelte";
+    import { createEventDispatcher, getContext } from "svelte";
     import type { Entry } from "./types";
     import i18n from "$lib/translation";
     import type { Hotkey } from "$lib/util";
@@ -17,13 +17,15 @@
         hotkey = hotkeys[entry.action_key];
     }
 
+    let dispatch = createEventDispatcher();
+
     let selected = entry.action_key != null ?
         (cur_entry: Entry) => {
             let active = document.activeElement;
             if (active && active instanceof HTMLElement) {
                 active.blur();
             }
-            console.info(entry.action_key);
+            dispatch('action', entry.action_key);
         }
     : (_: Entry) => {};
 </script>

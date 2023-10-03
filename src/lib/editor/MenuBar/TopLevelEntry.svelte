@@ -13,7 +13,7 @@
     </button>
     <ul>
         {#each entry.children as child}
-            <Entry entry={child} />
+            <Entry entry={child} on:action/>
         {/each}
     </ul>
 </li>
