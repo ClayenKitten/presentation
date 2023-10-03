@@ -15,28 +15,19 @@
         "delete": new Hotkey({ key: "Del" }),
     })
 
-    class Action {
-        display_name: string;
-        hotkey?: Hotkey;
-
-        constructor(key: string, display_name: string) {
-            this.display_name = display_name;
-        }
-    }
-
     const entries: TopLevel[] = [
         new TopLevel("file", [
-            new Entry("new", "file-plus"),
-            new Entry("open", "folder"),
-            new Entry("download", "download-simple"),
+            new Entry("file/new", "file-plus"),
+            new Entry("file/open", "folder"),
+            new Entry("file/download", "download-simple"),
         ]),
         new TopLevel("edit", [
-            new Entry("undo", "arrow-u-up-left"),
-            new Entry("redo", "arrow-u-up-right"),
-            new Entry("cut", "scissors"),
-            new Entry("copy", "copy"),
-            new Entry("paste", "clipboard"),
-            new Entry("delete", "trash-simple"),
+            new Entry("edit/undo", "arrow-u-up-left"),
+            new Entry("edit/redo", "arrow-u-up-right"),
+            new Entry("edit/cut", "scissors"),
+            new Entry("edit/copy", "copy"),
+            new Entry("edit/paste", "clipboard"),
+            new Entry("edit/delete", "trash-simple"),
         ]),
         new TopLevel("insert", [
             new Entry("insert/text", "text-aa"),
@@ -58,11 +49,11 @@
             new Entry("insert/qr-code", "qr-code"),
         ]),
         new TopLevel("slide", [
-            new Entry("new_slide", "plus-circle"),
-            new Entry("duplicate_slide", "copy"),
-            new Entry("delete_slide", "trash"),
-            new Entry("background", "paint-bucket"),
-            new Entry("transition", "cards"),
+            new Entry("slide/new", "plus-circle"),
+            new Entry("slide/duplicate", "copy"),
+            new Entry("slide/delete", "trash"),
+            new Entry("slide/background", "paint-bucket"),
+            new Entry("slide/transition", "cards"),
         ]),
     ]
 </script>

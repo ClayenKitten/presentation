@@ -1,4 +1,5 @@
 import { get, writable, type Writable } from "svelte/store";
+import type { ActionName } from "./editor/actions/actions";
 
 type Language = "en" | "ru";
 
@@ -8,13 +9,15 @@ type Translations = {
     ru: string,
 }
 
+export type TranslationKey = keyof typeof translations;
+
 export const language: Writable<Language> = writable("ru");
 
-export default function i18n(key: string): string {
+export default function i18n(key: TranslationKey): string {
     return translations[key][get(language)];
 }
 
-const translations: Record<string, Translations> = {
+const translations = {
     "slideshow": {
         en: "Slideshow",
         ru: "Слайд-шоу",
@@ -23,7 +26,6 @@ const translations: Record<string, Translations> = {
         en: "Access",
         ru: "Доступ",
     },
-
     // Menu
     "file": {
         en: "File",
@@ -42,61 +44,61 @@ const translations: Record<string, Translations> = {
         ru: "Слайд",
     },
     // Menu > File
-    "action/new": {
+    "action/file/new": {
         en: "New",
         ru: "Создать",
     },
-    "action/open": {
+    "action/file/open": {
         en: "Open",
         ru: "Открыть",
     },
-    "action/download": {
+    "action/file/download": {
         en: "Download",
         ru: "Скачать",
     },
     // Menu > Slide
-    "action/new_slide": {
+    "action/slide/new": {
         en: "New slide",
         ru: "Новый слайд",
     },
-    "action/duplicate_slide": {
+    "action/slide/duplicate": {
         en: "Duplicate slide",
         ru: "Дублировать слайд",
     },
-    "action/delete_slide": {
+    "action/slide/delete": {
         en: "Delete slide",
         ru: "Удалить слайд",
     },
-    "action/background": {
+    "action/slide/background": {
         en: "Background",
         ru: "Задний фон",
     },
-    "action/transition": {
+    "action/slide/transition": {
         en: "Transition",
         ru: "Переход",
     },
     // Menu > Edit
-    "action/undo": {
+    "action/edit/undo": {
         en: "Undo",
         ru: "Назад",
     },
-    "action/redo": {
+    "action/edit/redo": {
         en: "Redo",
         ru: "Вперёд",
     },
-    "action/cut": {
+    "action/edit/cut": {
         en: "Cut",
         ru: "Вырезать",
     },
-    "action/copy": {
+    "action/edit/copy": {
         en: "Copy",
         ru: "Копировать",
     },
-    "action/paste": {
+    "action/edit/paste": {
         en: "Paste",
         ru: "Вставить",
     },
-    "action/delete": {
+    "action/edit/delete": {
         en: "Delete",
         ru: "Удалить",
     },

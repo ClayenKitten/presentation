@@ -1,20 +1,23 @@
+import type { TranslationKey } from "$lib/translation";
+import type { ActionName } from "../actions/actions";
+
 export class TopLevelEntry {
-    translation_key: string;
+    translation_key: TranslationKey;
     children: Entry[];
 
-    constructor(translation_key: string, children: Entry[]) {
+    constructor(translation_key: TranslationKey, children: Entry[]) {
         this.translation_key = translation_key;
         this.children = children;
     }
 }
 
 export class Entry {
-    key: string;
+    key: ActionName;
     icon: string;
     private _children?: Entry[];
 
     constructor(
-        key: string,
+        key: ActionName,
         icon: string,
         children?: Entry[],
     ) {
@@ -23,8 +26,8 @@ export class Entry {
         this._children = children;
     }
 
-    public get translation_key(): string {
-        return "action/" + this.key;
+    public get translation_key(): TranslationKey {
+        return `action/${this.key}`;
     }
 
     public get action_key(): string | null {
