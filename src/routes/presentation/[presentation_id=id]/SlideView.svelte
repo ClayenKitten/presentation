@@ -1,15 +1,11 @@
 <script lang="ts">
     import type { Slide } from "$lib";
+    import Canvas from "$lib/editor/Canvas/Canvas.svelte";
 
     export let slide: Slide;
-    $: style =
-        slide.background instanceof URL
-            ? `background-image: url(${slide.background})`
-            : `background-color: ${slide.background}`;
 </script>
-
 <main>
-    <article {style} />
+    <Canvas {slide} />
 </main>
 
 <style lang="scss">
@@ -20,12 +16,5 @@
         display: flex;
         justify-content: center;
         align-items: center;
-
-        > article {
-            aspect-ratio: 16 / 9;
-            width: 800px;
-            position: relative;
-            background-size: 100% 100%;
-        }
     }
 </style>

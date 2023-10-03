@@ -1,4 +1,6 @@
 import type { Presentation, PresentationInfo } from "$lib";
+import { Image } from "./slide_objects/media";
+import { Textbox } from "./slide_objects/text";
 
 const data: Record<number, Presentation> = {
     25: {
@@ -11,7 +13,14 @@ const data: Record<number, Presentation> = {
             {
                 background: "#FFF",
                 notes: "egeg@",
-                objects: [],
+                objects: [
+                    new Textbox({ x: 0, y: 0 }, { w: 200, h: 300 }, "Cats are cool!"),
+                    new Image({ x: 0, y: 50 }, { w: 200, h: 200 }, new URL("https://placekitten.com/200/200")),
+                    new Image({ x: 0, y: 250 }, { w: 200, h: 100 }, new URL("https://placekitten.com/350/350")),
+                    new Image({ x: 0, y: 350 }, { w: 200, h: 100 }, new URL("https://placekitten.com/200/100")),
+                    new Image({ x: 200, y: 50 }, { w: 200, h: 400 }, new URL("https://placekitten.com/200/400")),
+                    new Image({ x: 400, y: 50 }, { w: 400, h: 400 }, new URL("https://placekitten.com/400/400")),
+                ],
             },
             {
                 background: "#AFA",
@@ -36,7 +45,9 @@ const data: Record<number, Presentation> = {
             {
                 background: "#ABC",
                 notes: "",
-                objects: [],
+                objects: [
+                    new Image({ x: 0, y: 0 }, { w: 200, h: 300 }, new URL("https://placekitten.com/200/300")),
+                ],
             },
         ]
     },
