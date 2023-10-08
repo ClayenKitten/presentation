@@ -61,7 +61,14 @@
         width: 100%;
         height: 100%;
         z-index: 999999;
+        box-sizing: border-box;
+        border: {
+            width: 2px;
+            style: dashed;
+            color: rgba(255, 255, 255, 0.75);
+        }
         cursor: move;
+
         .handle {
             position: absolute;
             width: $size;
