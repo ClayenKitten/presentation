@@ -4,18 +4,13 @@
     import type { Entry } from "./types";
     import i18n from "$lib/translation";
     import type { Hotkey } from "$lib/util";
+    import { get_hotkey as getHotkey } from "../actions/actions";
 
     export let entry: Entry;
     export let level: number = 0;
 
     const text = i18n(entry.translation_key);
-
-    let hotkeys: Record<string, Hotkey> = getContext("hotkeys");
-
-    let hotkey: Hotkey | null = null;
-    if (entry.action_key && hotkeys[entry.action_key]) {
-        hotkey = hotkeys[entry.action_key];
-    }
+    let hotkey = getHotkey(entry.key);
 
     let dispatch = createEventDispatcher();
 

@@ -1,19 +1,6 @@
 <script lang="ts">
-    import { setContext } from "svelte";
     import TopLevelEntry from "./TopLevelEntry.svelte";
     import { Entry, TopLevelEntry as TopLevel } from "./types";
-    import { Hotkey } from "$lib/util";
-
-    setContext("hotkeys", {
-        "open": new Hotkey({ ctrl: true, key: "O" }),
-        "undo": new Hotkey({ ctrl: true, key: "Z" }),
-        "redo": new Hotkey({ ctrl: true, key: "Y" }),
-        "cut": new Hotkey({ ctrl: true, key: "X" }),
-        "copy": new Hotkey({ ctrl: true, key: "C" }),
-        "paste": new Hotkey({ ctrl: true, key: "V" }),
-        "new_slide": new Hotkey({ ctrl: true, key: "M" }),
-        "delete": new Hotkey({ key: "Del" }),
-    })
 
     const entries: TopLevel[] = [
         new TopLevel("file", [

@@ -7,10 +7,18 @@ export type Action = {
 
 export type ActionName = (typeof Actions)[number]["name"];
 
+export function get_hotkey(action_name: ActionName): Hotkey | undefined {
+    let action = Actions.find((action) => {
+        let action_ = action as Action;
+        return action.name == action_name;
+    }) as Action | undefined;
+    return action?.hotkey;
+}
+
 export function map_hotkey_to_action(hotkey: Hotkey): Action | undefined {
     return Actions.find((action) => {
         let action_ = action as Action;
-        action_.hotkey && action_.hotkey == hotkey
+        return action_.hotkey && action_.hotkey == hotkey;
     }) as Action | undefined;
 }
 
@@ -20,12 +28,12 @@ const Actions = [
     { name: "file/open" },
     { name: "file/download" },
     // Edit
-    { name: "edit/undo" },
-    { name: "edit/redo" },
-    { name: "edit/cut" },
-    { name: "edit/copy" },
-    { name: "edit/paste" },
-    { name: "edit/delete" },
+    { name: "edit/undo", hotkey: new Hotkey({ ctrl: true, key: "Z" }) },
+    { name: "edit/redo", hotkey: new Hotkey({ ctrl: true, key: "Y" }) },
+    { name: "edit/cut", hotkey: new Hotkey({ ctrl: true, key: "X" }) },
+    { name: "edit/copy", hotkey: new Hotkey({ ctrl: true, key: "C" }) },
+    { name: "edit/paste", hotkey: new Hotkey({ ctrl: true, key: "V" }) },
+    { name: "edit/delete", hotkey: new Hotkey({ key: "Del" }) },
     // Insert
     { name: "insert/text" },
     { name: "insert/image" },
