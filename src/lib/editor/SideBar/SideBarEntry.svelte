@@ -1,17 +1,26 @@
 <script lang="ts">
-    import type { Presentation, Slide } from "$lib";
-    
+    import type { Slide } from "$lib";
+    import type { Selection } from "../selection";
+
     export let i: number;
-    export let slide_number: number;
     export let slide: Slide;
+
+    export let current_slide: number;
+    export let selection: Selection;
+
+    function on_click() {
+        current_slide = i;
+        selection.select_slide(i, slide);
+        selection = selection;
+    }
 
     $: style = slide.background instanceof URL
         ? `background-image: url(${slide.background})`
         : `background-color: ${slide.background}`;
 </script>
 
-<li class:selected={slide_number == i}>
-    <button on:click={(_) => (slide_number = i)}>
+<li class:selected={current_slide == i}>
+    <button on:click={on_click}>
         <div class="slide-number">{i + 1}</div>
         <div class="slide-preview" {style}></div>
     </button>

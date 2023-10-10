@@ -9,6 +9,7 @@
     import { derived, writable } from "svelte/store";
     import { Slide } from "$lib";
     import type { ActionName } from "$lib/editor/actions/actions";
+    import { Selection } from "$lib/editor/selection";
 
     let id = Number($page.params["presentation_id"]);
     let _presentation = query_presentation(id);
@@ -16,29 +17,27 @@
         throw error(404, 'Not Found');
     }
     let presentation = writable(_presentation);
-    let slide_number = writable(0);
-    let slide = derived(
-        [slide_number, presentation],
-        ([$slide_number, $presentation]) => $presentation.slides[$slide_number],
-    );
+    let current_slide = writable(0);
+    $: slide = $presentation.slides[$current_slide]
 
+    let selection = new Selection();
     let collapsed = false;
 
     function on_action(event: CustomEvent<ActionName>) {
         let action_key = event.detail;
         switch (action_key) {
             case 'slide/new':
-                $presentation.slides.splice($slide_number + 1, 0, new Slide());
-                $slide_number += 1;
+                $presentation.slides.splice($current_slide + 1, 0, new Slide());
+                $current_slide += 1;
                 $presentation = $presentation;
                 break;
             case 'slide/duplicate':
-                $presentation.slides.splice($slide_number, 0, $slide);
-                $slide_number += 1;
+                $presentation.slides.splice($current_slide, 0, slide);
+                $current_slide += 1;
                 $presentation = $presentation;
                 break;
             case 'slide/delete':
-                $presentation.slides.splice($slide_number, 1);
+                $presentation.slides.splice($current_slide, 1);
                 $presentation = $presentation;
                 break;
             default:
@@ -51,12 +50,13 @@
 <div id="wrapper" class:collapsed={collapsed}>
     <Header title={$presentation.info.name} on:action={on_action}/>
     <SideBar
-        bind:slide_number={$slide_number}
         presentation={$presentation}
+        bind:current_slide={$current_slide}
         bind:collapsed={collapsed}
+        bind:selection={selection}
     />
-    <SlideView slide={$slide}/>
-    <SpeakerNotes bind:notes={$slide.notes}/>
+    <SlideView {slide} bind:selection={selection}/>
+    <SpeakerNotes bind:notes={slide.notes}/>
 </div>
 
 <style lang="scss">

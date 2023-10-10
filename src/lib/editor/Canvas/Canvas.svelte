@@ -3,8 +3,11 @@
     import { setContext } from "svelte";
     import ObjectDisplay from "./ObjectDisplay.svelte";
     import { writable } from "svelte/store";
+    import type { Selection } from "../selection";
 
     export let slide: Slide;
+    export let selection: Selection;
+
     $: style =
         slide.background instanceof URL
             ? `background-image: url(${slide.background})`
@@ -12,17 +15,13 @@
 
     // FIXME: Canvas size should be dynamic
     setContext("canvas_size", writable({ w: 800, h: 450 }));
-
-    let selected_object_index: number | null = null;
-    $: selected_object = selected_object_index
-        ? slide.objects[selected_object_index]
-        : null;
     
     let drag_just_ended = false;
 
     function on_selected_object(i: number) {
-        if (selected_object_index != i) {
-            selected_object_index = i;
+        if (!selection.selected_object || selection.selected_object[0] != i) {
+            selection.select_object(i, slide.objects[i]);
+            selection = selection;
         }
     }
     function reset_focus(event: MouseEvent) {
@@ -32,7 +31,7 @@
             drag_just_ended = false;
             return;
         }
-        if (selected_object_index == null) {
+        if (selection.selected_object == null) {
             return;
         }
         if (event?.target instanceof Element) {
@@ -42,7 +41,8 @@
                     return;
                 }
             }
-            selected_object_index = null;
+            selection.deselect();
+            selection = selection;
         }
     }
 </script>
@@ -57,7 +57,7 @@
             {object}
             on:drag_end = {(_) => drag_just_ended = true}
             on:click = {() => on_selected_object(i)}
-            selected = {i === selected_object_index}
+            selected = {i === selection.selected_object?.[0]}
         />
     {/each}
 </article>

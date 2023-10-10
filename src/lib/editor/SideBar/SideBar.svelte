@@ -1,9 +1,12 @@
 <script lang="ts">
     import type { Presentation } from "$lib";
+    import type { Selection } from "../selection";
     import SideBarPreview from "./SideBarEntry.svelte";
 
-    export let slide_number: number;
     export let presentation: Presentation;
+
+    export let current_slide: number;
+    export let selection: Selection;
 
     export let collapsed: boolean;
 </script>
@@ -11,7 +14,12 @@
 <aside>
     <ol class:collapsed={collapsed}>
         {#each presentation.slides as _, i}
-            <SideBarPreview slide={presentation.slides[i]} bind:slide_number={slide_number} {i}/>
+            <SideBarPreview
+                {i}
+                slide={presentation.slides[i]}
+                bind:current_slide={current_slide}
+                bind:selection={selection}
+            />
         {/each}
     </ol>
     <menu>
