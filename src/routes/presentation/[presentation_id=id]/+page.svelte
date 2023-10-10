@@ -47,7 +47,7 @@
     }
 </script>
 
-<div id="wrapper" class:collapsed={collapsed}>
+<div id="editor" class:collapsed={collapsed}>
     <Header title={$presentation.info.name} on:action={on_action}/>
     <SideBar
         presentation={$presentation}
@@ -60,7 +60,7 @@
 </div>
 
 <style lang="scss">
-    #wrapper {
+    #editor {
 		margin: 0;
 		height: 100vh;
 

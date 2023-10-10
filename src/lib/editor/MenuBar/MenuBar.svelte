@@ -45,7 +45,7 @@
     ]
 </script>
 
-<menu>
+<menu id="menubar">
     <ul>
         {#each entries as entry}
             <TopLevelEntry {entry} on:action/>
