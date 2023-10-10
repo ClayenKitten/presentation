@@ -24,9 +24,7 @@
             selection = selection;
         }
     }
-    function reset_focus(event: MouseEvent) {
-        let data = document.querySelectorAll(".object");
-
+    function reset_selection(event: MouseEvent) {
         if (drag_just_ended) {
             drag_just_ended = false;
             return;
@@ -35,19 +33,15 @@
             return;
         }
         if (event?.target instanceof Element) {
-            let target = event?.target;
-            for (let index = 0; index < data.length; index++) {
-                if (data[index] == target) {
-                    return;
-                }
+            if (!event?.target.matches(".object, header *")) {    
+                selection.deselect();
+                selection = selection;
             }
-            selection.deselect();
-            selection = selection;
         }
     }
 </script>
 
-<svelte:body on:click={reset_focus}></svelte:body>
+<svelte:body on:click={reset_selection}></svelte:body>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
