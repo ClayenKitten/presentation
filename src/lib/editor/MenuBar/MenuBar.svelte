@@ -70,7 +70,7 @@
         ul {
             display: flex;
             height: 30px;
-            z-index: 1;
+            z-index: var(--menu-z-index);
         }
 
         :global(button) {

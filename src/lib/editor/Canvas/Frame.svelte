@@ -60,7 +60,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        z-index: 999999;
+        z-index: var(--frame-z-index);
         box-sizing: border-box;
         border: {
             width: 2px;
