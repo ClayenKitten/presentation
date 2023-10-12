@@ -1,7 +1,11 @@
+<script lang="ts">
+    import Icon from "$lib/Icon.svelte";
+</script>
+
 <div>
     <menu>
         <label class="search">
-            <i class="ph-bold ph-magnifying-glass" />
+            <Icon icon="magnifying-glass"/>
             <input type="search" placeholder="Search menus..." />
         </label>
     </menu>
@@ -38,10 +42,6 @@
         cursor: text;
         &:focus-within {
             outline: auto;
-        }
-
-        i {
-            font-size: 14px;
         }
         input[type="search"] {
             flex: 1;

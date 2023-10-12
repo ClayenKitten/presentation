@@ -1,10 +1,10 @@
 <script lang="ts">
     import Kbd from "$lib/Kbd.svelte";
-    import { createEventDispatcher, getContext } from "svelte";
+    import { createEventDispatcher } from "svelte";
     import type { Entry } from "./types";
     import i18n from "$lib/translation";
-    import type { Hotkey } from "$lib/util";
     import { get_hotkey as getHotkey } from "../actions/actions";
+    import Icon from "$lib/Icon.svelte";
 
     export let entry: Entry;
     export let level: number = 0;
@@ -28,7 +28,7 @@
 <li>
     <button on:click={() => selected(entry)}>
         {#if entry.icon}
-            <i class="ph-bold ph-{entry.icon}"></i>
+            <Icon icon={entry.icon}/>
         {:else}
             <span></span>
         {/if}
@@ -40,7 +40,7 @@
                 key={hotkey.key}
             />
         {:else if entry.children && entry.children.length != 0}
-            <i class="ph-bold ph-caret-right"></i>
+            <Icon icon="caret-right"/>
         {:else}
             <span></span>
         {/if}

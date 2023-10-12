@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Presentation } from "$lib";
+    import Icon from "$lib/Icon.svelte";
     import type { Selection } from "../selection";
     import SideBarPreview from "./SideBarEntry.svelte";
 
@@ -24,13 +25,13 @@
     </ol>
     <menu>
         <button title="Grid view">
-            <i class="ph-bold ph-grid-four"></i>
+            <Icon icon="grid-four"/>
         </button>
         <button on:click={() => { collapsed = !collapsed; }} title="Hide slide list">
             {#if collapsed}
-                <i class="ph-bold ph-arrow-right"></i>
+                <Icon icon="arrow-right"/>
             {:else}
-                <i class="ph-bold ph-arrow-left"></i>
+                <Icon icon="arrow-left"/>
             {/if}
         </button>
     </menu>
@@ -83,13 +84,10 @@
 
                 background-color: white;
                 border: none;
+                font-size: 20px;
 
                 &:hover {
                     background-color: #eee;
-                }
-
-                > i {
-                    font-size: 20px;
                 }
             }
         }

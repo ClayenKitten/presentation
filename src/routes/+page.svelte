@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Icon from "$lib/Icon.svelte";
     import { query_presentation_infos } from "$lib/data";
 
     let presentations = query_presentation_infos();
@@ -11,10 +12,10 @@
         <input type="search"/>
         <menu>
             <button title="Download archive">
-                <i class="ph-bold ph-download-simple"></i>
+                <Icon icon="download-simple"/>
             </button>
             <button title="Settings">
-                <i class="ph-bold ph-gear"></i>
+                <Icon icon="gear"/>
             </button>
         </menu>
     </header>

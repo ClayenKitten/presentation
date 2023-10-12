@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Icon from "$lib/Icon.svelte";
     import MenuBar from "$lib/editor/MenuBar/MenuBar.svelte";
     import ToolBar from "$lib/editor/ToolBar/ToolBar.svelte";
     import i18n from "$lib/translation";
@@ -16,7 +17,7 @@
     <menu id="controls">
         <button>{i18n("slideshow")}</button>
         <button>
-            <i class="ph-bold ph-lock"></i>
+            <Icon icon="lock"/>
             {i18n("access")}
         </button>
     </menu>
