@@ -7,6 +7,22 @@ export type Action = {
 
 export type ActionName = (typeof Actions)[number]["name"];
 
+export function HotkeyHandler(event: KeyboardEvent): ActionName | undefined {
+    for (let index = 0; index < Actions.length; index++) {
+        const element: Action = Actions[index];
+        if (element.hotkey) {
+            let hotkey = element.hotkey;
+            if (
+                hotkey.ctrl == event.ctrlKey &&
+                hotkey.shift == event.shiftKey &&
+                hotkey.key == event.code
+            ) {
+                return element.name;
+            }
+        }
+    }
+}
+
 export function get_hotkey(action_name: ActionName): Hotkey | undefined {
     let action = Actions.find((action) => {
         let action_ = action as Action;
@@ -15,25 +31,18 @@ export function get_hotkey(action_name: ActionName): Hotkey | undefined {
     return action?.hotkey;
 }
 
-export function map_hotkey_to_action(hotkey: Hotkey): Action | undefined {
-    return Actions.find((action) => {
-        let action_ = action as Action;
-        return action_.hotkey && action_.hotkey == hotkey;
-    }) as Action | undefined;
-}
-
 const Actions = [
     // File
     { name: "file/new" },
     { name: "file/open" },
     { name: "file/download" },
     // Edit
-    { name: "edit/undo", hotkey: new Hotkey({ ctrl: true, key: "Z" }) },
-    { name: "edit/redo", hotkey: new Hotkey({ ctrl: true, key: "Y" }) },
-    { name: "edit/cut", hotkey: new Hotkey({ ctrl: true, key: "X" }) },
-    { name: "edit/copy", hotkey: new Hotkey({ ctrl: true, key: "C" }) },
-    { name: "edit/paste", hotkey: new Hotkey({ ctrl: true, key: "V" }) },
-    { name: "edit/delete", hotkey: new Hotkey({ key: "Del" }) },
+    { name: "edit/undo", hotkey: new Hotkey("KeyZ", "Z", { ctrl: true }) },
+    { name: "edit/redo", hotkey: new Hotkey("KeyY", "Y", { ctrl: true }) },
+    { name: "edit/cut", hotkey: new Hotkey("KeyX", "X", { ctrl: true }) },
+    { name: "edit/copy", hotkey: new Hotkey("KeyC", "C", { ctrl: true }) },
+    { name: "edit/paste", hotkey: new Hotkey("KeyV", "V", { ctrl: true }) },
+    { name: "edit/delete", hotkey: new Hotkey("Delete", "Del") },
     // Insert
     { name: "insert/text" },
     { name: "insert/image" },
@@ -51,7 +60,7 @@ const Actions = [
     { name: "insert/connection/arrow_fat" },
     { name: "insert/qr-code" },
     // Slide
-    { name: "slide/new", hotkey: new Hotkey({ key: "M", ctrl: true }) },
+    { name: "slide/new", hotkey: new Hotkey("KeyM", "M", { ctrl: true }) },
     { name: "slide/duplicate" },
     { name: "slide/delete" },
     { name: "slide/background" },

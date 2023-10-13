@@ -6,9 +6,9 @@
     import { page } from "$app/stores";
     import { error } from "@sveltejs/kit";
     import { query_presentation } from "$lib/data";
-    import { derived, writable } from "svelte/store";
+    import { writable } from "svelte/store";
     import { Slide } from "$lib";
-    import type { ActionName } from "$lib/editor/actions/actions";
+    import { HotkeyHandler, type ActionName } from "$lib/editor/actions/actions";
     import { Selection } from "$lib/editor/selection";
 
     let id = Number($page.params["presentation_id"]);
@@ -23,9 +23,8 @@
     let selection = new Selection();
     let collapsed = false;
 
-    function on_action(event: CustomEvent<ActionName>) {
-        let action_key = event.detail;
-        switch (action_key) {
+    function handle_action(action_name: ActionName) {
+        switch (action_name) {
             case 'slide/new':
                 $presentation.slides.splice($current_slide + 1, 0, new Slide());
                 $current_slide += 1;
@@ -41,11 +40,24 @@
                 $presentation = $presentation;
                 break;
             default:
-                console.error(`Unhandled action key: ${action_key}`);
+                console.error(`Unhandled action name: ${action_name}`);
                 break;
         }
     }
+
+    function on_action(event: CustomEvent<ActionName>) {
+        handle_action(event.detail)
+    }
+
+    function hotkey_handler(event: KeyboardEvent) {
+        let action_name = HotkeyHandler(event);
+        if (action_name) {
+            handle_action(action_name);
+        }
+    }
 </script>
+
+<svelte:window on:keyup={hotkey_handler}/>
 
 <div id="editor" class:collapsed={collapsed}>
     <Header title={$presentation.info.name} on:action={on_action}/>

@@ -7,14 +7,18 @@ export class Hotkey {
     ctrl: boolean = false;
     shift: boolean = false;
     key: string;
+    display_name: string;
 
-    constructor(init: { key: string, ctrl?: boolean, shift?: boolean }) {
-        this.key = init.key;
-        if (init.ctrl) {
-            this.ctrl = init.ctrl;
-        }
-        if (init.shift) {
-            this.shift = init.shift;
+    constructor(key: string, display_name: string, modifiers?: { ctrl?: boolean, shift?: boolean }) {
+        this.key = key;
+        this.display_name = display_name;
+        if (modifiers) {
+            if (modifiers.ctrl) {
+                this.ctrl = modifiers.ctrl;
+            }
+            if (modifiers.shift) {
+                this.shift = modifiers.shift;
+            }
         }
     }
 }
