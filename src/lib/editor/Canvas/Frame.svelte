@@ -2,13 +2,15 @@
     import type { Position, Size } from "$lib/util";
     import { createEventDispatcher, getContext } from "svelte";
     import type { Readable } from "svelte/motion";
+    import Handle from "./Handle.svelte";
+    import RotationHandle from "./RotationHandle.svelte";
 
     let canvas_size: Readable<Size> = getContext("canvas_size");
 
     export let position: Position;
     export let size: Size;
     const dispatch = createEventDispatcher();
-    
+
     let dragged = false;
     function drag(e: MouseEvent) {
         if (dragged) {
@@ -39,24 +41,23 @@
 <svelte:window on:mouseup={end} on:mousemove={drag} />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="frame" on:mousedown={() => dragged = true}>
-    <div class="top left size handle"></div>
-    <div class="top middle-w size handle"></div>
-    <div class="top right size handle"></div>
-    <div class="middle-h right size handle"></div>
-    <div class="bottom right size handle"></div>
-    <div class="bottom middle-w size handle"></div>
-    <div class="bottom left size handle"></div>
-    <div class="middle-h left size handle"></div>
-    <div class="rotation handle"></div>
+<div class="frame" on:mousedown={() => (dragged = true)}>
+    <RotationHandle />
+    <Handle horizontal="left" vertical="top" />
+    <Handle horizontal="middle" vertical="top" />
+    <Handle horizontal="right" vertical="top" />
+    <Handle horizontal="left" vertical="bottom" />
+    <Handle horizontal="middle" vertical="bottom" />
+    <Handle horizontal="right" vertical="bottom" />
+    <Handle horizontal="left" vertical="middle" />
+    <Handle horizontal="right" vertical="middle" />
 </div>
 
 <style lang="scss">
-    @use 'sass:math';
-
-    $size: 14px;
-    $offset: math.div(-$size, 2);
     .frame {
+        --handle-size: 14px;
+        --handle-offset: calc(-1 * var(--handle-size) / 2);
+
         position: absolute;
         width: 100%;
         height: 100%;
@@ -68,45 +69,5 @@
             color: rgba(255, 255, 255, 0.75);
         }
         cursor: move;
-
-        .handle {
-            position: absolute;
-            width: $size;
-            height: $size;
-            background-color: blue;
-            box-sizing: border-box;
-            border: solid 1px white;
-
-            &.rotation {
-                right: 50%;
-                left: 50%;
-                top: -1*3*$size;
-                border-radius: $size;
-                cursor: crosshair;
-            }
-            &.size {
-                &.middle-w {
-                    left: 50%;
-                    right: 50%;
-                }
-                &.middle-h {
-                    top: 50%;
-                    bottom: 50%;
-                }
-                &.top { top: $offset; }
-                &.bottom { bottom: $offset }
-                &.left { left: $offset }
-                &.right { right: $offset }
-
-                &.top { cursor: n-resize; }
-                &.bottom { cursor: s-resize; }
-                &.left { cursor: w-resize; }
-                &.right { cursor: e-resize; }
-                &.top.left { cursor: nw-resize; }
-                &.top.right { cursor: ne-resize; }
-                &.bottom.left { cursor: sw-resize; }
-                &.bottom.right { cursor: se-resize; }
-            }
-        }
     }
 </style>
