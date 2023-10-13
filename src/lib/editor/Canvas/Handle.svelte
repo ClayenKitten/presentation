@@ -1,14 +1,51 @@
 <script lang="ts">
     export let horizontal: "left" | "right" | "middle";
     export let vertical: "top" | "bottom" | "middle";
+    import { draggable } from "$lib/draggable";
+    import { createEventDispatcher } from "svelte";
 
     let classes = [
         horizontal == "middle" ? "middle-h" : horizontal,
         vertical == "middle" ? "middle-v" : vertical,
     ].join(" ");
+
+    let dispatch = createEventDispatcher();
+    function handle_move(
+        event: CustomEvent<{ offset: { x: number; y: number } }>
+    ) {
+        let offset = structuredClone(event.detail.offset);
+        let resize = structuredClone(event.detail.offset);
+
+        switch (horizontal) {
+            case "left":
+                resize.x *= -1;
+                break;
+            case "right":
+                offset.x = 0;
+                break;
+            case "middle":
+                offset.x = 0;
+                resize.x = 0;
+                break;
+        }
+        switch (vertical) {
+            case "top":
+                resize.y *= -1;
+                break;
+            case "bottom":
+                offset.y = 0;
+                break;
+            case "middle":
+                offset.y = 0;
+                resize.y = 0;
+                break;
+        }
+
+        dispatch("resized", { offset, resize });
+    }
 </script>
 
-<div class={classes} />
+<div class={classes} use:draggable on:moved={handle_move} />
 
 <style lang="scss">
     div {

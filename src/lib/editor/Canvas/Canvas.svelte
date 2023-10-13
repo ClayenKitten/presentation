@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { Slide } from "$lib";
-    import { setContext } from "svelte";
     import ObjectDisplay from "./ObjectDisplay.svelte";
     import { writable } from "svelte/store";
     import type { Selection } from "../selection";
@@ -13,9 +12,6 @@
             ? `background-image: url(${slide.background})`
             : `background-color: ${slide.background}`;
 
-    // FIXME: Canvas size should be dynamic
-    setContext("canvas_size", writable({ w: 800, h: 450 }));
-    
     let drag_just_ended = false;
 
     function on_selected_object(i: number) {
@@ -33,7 +29,7 @@
             return;
         }
         if (event?.target instanceof Element) {
-            if (!event?.target.matches(".object, header *")) {    
+            if (!event?.target.matches(".object, header *")) {
                 selection.deselect();
                 selection = selection;
             }
@@ -41,7 +37,7 @@
     }
 </script>
 
-<svelte:body on:click={reset_selection}></svelte:body>
+<svelte:body on:click={reset_selection} />
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -49,9 +45,9 @@
     {#each slide.objects as object, i}
         <ObjectDisplay
             {object}
-            on:drag_end = {(_) => drag_just_ended = true}
-            on:click = {() => on_selected_object(i)}
-            selected = {i === selection.selected_object?.[0]}
+            on:drag_end={(_) => (drag_just_ended = true)}
+            on:click={() => on_selected_object(i)}
+            selected={i === selection.selected_object?.[0]}
         />
     {/each}
 </article>

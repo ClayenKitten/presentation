@@ -1,56 +1,65 @@
 <script lang="ts">
     import type { Position, Size } from "$lib/util";
-    import { createEventDispatcher, getContext } from "svelte";
-    import type { Readable } from "svelte/motion";
+    import { createEventDispatcher } from "svelte";
     import Handle from "./Handle.svelte";
     import RotationHandle from "./RotationHandle.svelte";
-
-    let canvas_size: Readable<Size> = getContext("canvas_size");
+    import { draggable } from "$lib/draggable";
 
     export let position: Position;
     export let size: Size;
+    export let angle: number;
+
     const dispatch = createEventDispatcher();
 
-    let dragged = false;
-    function drag(e: MouseEvent) {
-        if (dragged) {
-            position.x += e.movementX;
-            position.y += e.movementY;
-            if (position.x < 0) {
-                position.x = 0;
-            } else if (position.x + size.w > $canvas_size.w) {
-                position.x = $canvas_size.w - size.w;
-            }
+    let cancel_move = false;
+    function moved(event: CustomEvent<{ offset: Position }>) {
+        if (cancel_move) {
+            cancel_move = false;
+            return;
+        }
+        position.x += event.detail.offset.x;
+        position.y += event.detail.offset.y;
+        position = position;
 
-            if (position.y < 0) {
-                position.y = 0;
-            } else if (position.y + size.h > $canvas_size.h) {
-                position.y = $canvas_size.h - size.h;
-            }
-        }
+        dispatch("drag_end");
     }
-    function end() {
-        if (dragged) {
-            dragged = false;
-            dispatch("update", [position, size]);
-            dispatch("drag_end");
-        }
+
+    function rotated(event: CustomEvent<{ angle: number }>) {
+        cancel_move = true;
+        angle = event.detail.angle;
+        dispatch("drag_end");
+    }
+
+    // FIXME: negative resize should flip item.
+    function resize(
+        event: CustomEvent<{
+            offset: { x: number; y: number };
+            resize: { x: number; y: number };
+        }>
+    ) {
+        cancel_move = true;
+        position.x += event.detail.offset.x;
+        position.y += event.detail.offset.y;
+        size.w += event.detail.resize.x;
+        size.h += event.detail.resize.y;
+
+        position = position;
+        size = size;
+        dispatch("drag_end");
     }
 </script>
 
-<svelte:window on:mouseup={end} on:mousemove={drag} />
-
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="frame" on:mousedown={() => (dragged = true)}>
-    <RotationHandle />
-    <Handle horizontal="left" vertical="top" />
-    <Handle horizontal="middle" vertical="top" />
-    <Handle horizontal="right" vertical="top" />
-    <Handle horizontal="left" vertical="bottom" />
-    <Handle horizontal="middle" vertical="bottom" />
-    <Handle horizontal="right" vertical="bottom" />
-    <Handle horizontal="left" vertical="middle" />
-    <Handle horizontal="right" vertical="middle" />
+<div class="frame" use:draggable on:moved={moved}>
+    <RotationHandle on:rotated={rotated} {position} {size} />
+    <Handle horizontal="left" vertical="top" on:resized={resize} />
+    <Handle horizontal="middle" vertical="top" on:resized={resize} />
+    <Handle horizontal="right" vertical="top" on:resized={resize} />
+    <Handle horizontal="left" vertical="bottom" on:resized={resize} />
+    <Handle horizontal="middle" vertical="bottom" on:resized={resize} />
+    <Handle horizontal="right" vertical="bottom" on:resized={resize} />
+    <Handle horizontal="left" vertical="middle" on:resized={resize} />
+    <Handle horizontal="right" vertical="middle" on:resized={resize} />
 </div>
 
 <style lang="scss">

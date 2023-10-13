@@ -3,6 +3,7 @@ import type { Position, Size } from "./util";
 export class SlideObject {
     position: Position;
     size: Size;
+    angle: number = 0;
 
     constructor(position: Position, size: Size) {
         this.position = position;
