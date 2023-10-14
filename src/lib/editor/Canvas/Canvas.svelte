@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { Slide } from "$lib";
     import ObjectDisplay from "./ObjectDisplay.svelte";
-    import { writable } from "svelte/store";
     import type { Selection } from "../selection";
+    import Frame from "./Frame.svelte";
 
     export let slide: Slide;
     export let selection: Selection;
@@ -35,6 +35,12 @@
             }
         }
     }
+    $: {
+        selection.selected_object;
+        (() => {
+            slide.objects = slide.objects;
+        })();
+    }
 </script>
 
 <svelte:body on:click={reset_selection} />
@@ -42,13 +48,14 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <article id="canvas" {style}>
-    {#each slide.objects as object, i}
-        <ObjectDisplay
-            {object}
+    {#if selection.selected_object}
+        <Frame
+            bind:object={selection.selected_object[1]}
             on:drag_end={(_) => (drag_just_ended = true)}
-            on:click={() => on_selected_object(i)}
-            selected={i === selection.selected_object?.[0]}
         />
+    {/if}
+    {#each slide.objects as object, i}
+        <ObjectDisplay {object} on:click={() => on_selected_object(i)} />
     {/each}
 </article>
 

@@ -2,15 +2,14 @@
     import type { SlideObject } from "$lib/slide_objects";
     import { Image, Video } from "$lib/slide_objects/media";
     import { Textbox } from "$lib/slide_objects/text";
-    import Frame from "./Frame.svelte";
 
     export let object: SlideObject;
-    export let selected = false;
 
     $: left = `${object.position.x}px`;
     $: top = `${object.position.y}px`;
     $: width = `${object.size.w}px`;
     $: height = `${object.size.h}px`;
+    $: transform = `rotate(${object.angle}rad)`;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -23,17 +22,9 @@
     style:top
     style:width
     style:height
-    style:transform={`rotate(${object.angle}rad)`}
+    style:transform
     on:click
 >
-    {#if selected}
-        <Frame
-            bind:position={object.position}
-            bind:size={object.size}
-            bind:angle={object.angle}
-            on:drag_end
-        />
-    {/if}
     {#if object instanceof Textbox}
         <p>{object.text}</p>
     {:else if object instanceof Image}
