@@ -37,7 +37,7 @@
             <Kbd
                 shift={hotkey.shift}
                 ctrl={hotkey.ctrl}
-                key={hotkey.key}
+                key={hotkey.display_name}
             />
         {:else if entry.children && entry.children.length != 0}
             <Icon icon="caret-right"/>
