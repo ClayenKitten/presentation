@@ -27,11 +27,11 @@
 
 <li>
     <button on:click={() => selected(entry)}>
-        {#if entry.icon}
-            <Icon icon={entry.icon}/>
-        {:else}
-            <span></span>
-        {/if}
+        <span>
+            {#if entry.icon}
+                <Icon icon={entry.icon}/>
+            {/if}
+        </span>
         <span>{text}</span>
         {#if hotkey}
             <Kbd
@@ -84,9 +84,11 @@
         }
 
         & :nth-child(1) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 18px;
             width: 30px;
-            text-align: center;
         }
         & :nth-child(2) {
             flex: 1;
