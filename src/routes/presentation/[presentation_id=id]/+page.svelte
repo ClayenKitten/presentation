@@ -1,19 +1,16 @@
 <script lang="ts">
-    import Header from "./Header.svelte";
-    import SideBar from "../../../lib/editor/SideBar/SideBar.svelte";
+    import Header from "$lib/Components/Editor/Header/Header.svelte";
+    import SideBar from "$lib/Components/Editor/SideBar/SideBar.svelte";
     import SlideView from "./SlideView.svelte";
-    import SpeakerNotes from "./SpeakerNotes.svelte";
+    import SpeakerNotes from "$lib/Components/Editor/SpeakerNotes.svelte";
     import { page } from "$app/stores";
     import { error } from "@sveltejs/kit";
     import { query_presentation } from "$lib/data";
     import { writable } from "svelte/store";
     import { Slide } from "$lib";
-    import {
-        HotkeyHandler,
-        type ActionName,
-    } from "$lib/editor/actions/actions";
-    import { Selection } from "$lib/editor/selection";
-    import ActionModal from "$lib/modals/ActionModal.svelte";
+    import { HotkeyHandler, type ActionName } from "$lib/actions";
+    import { Selection } from "$lib/Components/Editor/Canvas/selection";
+    import ActionModal from "$lib/Components/Editor/Modals/ActionModal.svelte";
 
     let id = Number($page.params["presentation_id"]);
     let _presentation = query_presentation(id);

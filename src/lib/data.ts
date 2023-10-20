@@ -1,6 +1,5 @@
 import type { Presentation, PresentationInfo } from "$lib";
-import { Image } from "./slide_objects/media";
-import { Textbox } from "./slide_objects/text";
+import { Image, Textbox } from "$lib/Components/Editor/Canvas/slide_objects";
 
 const data: Record<number, Presentation> = {
     25: {

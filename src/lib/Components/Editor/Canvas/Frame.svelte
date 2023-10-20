@@ -3,7 +3,7 @@
     import Handle from "./Handle.svelte";
     import RotationHandle from "./RotationHandle.svelte";
     import { draggable } from "$lib/draggable";
-    import type { SlideObject } from "$lib/slide_objects";
+    import type { SlideObject } from "$lib/Components/Editor/Canvas/slide_objects";
 
     export let object: SlideObject;
 

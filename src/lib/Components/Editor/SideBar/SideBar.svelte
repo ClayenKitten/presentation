@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Presentation } from "$lib";
-    import Icon from "$lib/Icon.svelte";
-    import type { Selection } from "../selection";
+    import Icon from "$lib/Components/Util/Icon.svelte";
+    import type { Selection } from "$lib/Components/Editor/Canvas/selection";
     import SideBarPreview from "./SideBarEntry.svelte";
 
     export let presentation: Presentation;

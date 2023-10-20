@@ -1,5 +1,5 @@
 import type { TranslationKey } from "$lib/translation";
-import type { ActionName } from "../actions/actions";
+import type { ActionName } from "$lib/actions";
 
 export class TopLevelEntry {
     translation_key: TranslationKey;

@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Slide } from "$lib";
     import ObjectDisplay from "./ObjectDisplay.svelte";
-    import type { Selection } from "../selection";
+    import type { Selection } from "$lib/Components/Editor/Canvas/selection";
     import Frame from "./Frame.svelte";
 
     export let slide: Slide;

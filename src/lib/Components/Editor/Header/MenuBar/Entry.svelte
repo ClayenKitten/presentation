@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Kbd from "$lib/Kbd.svelte";
+    import Kbd from "$lib/Components/Util/Kbd.svelte";
     import { createEventDispatcher } from "svelte";
     import type { Entry } from "./types";
     import i18n from "$lib/translation";
-    import { get_hotkey as getHotkey } from "../actions/actions";
-    import Icon from "$lib/Icon.svelte";
+    import { get_hotkey as getHotkey } from "$lib/actions";
+    import Icon from "$lib/Components/Util/Icon.svelte";
 
     export let entry: Entry;
     export let level: number = 0;

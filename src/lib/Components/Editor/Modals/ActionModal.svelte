@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { ActionName } from "$lib/editor/actions/actions";
+    import type { ActionName } from "$lib/actions";
     import InsertImage from "./InsertImage.svelte";
 
     export let action: ActionName | null;

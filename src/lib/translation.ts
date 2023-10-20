@@ -1,5 +1,4 @@
 import { get, writable, type Writable } from "svelte/store";
-import type { ActionName } from "./editor/actions/actions";
 
 type Language = "en" | "ru";
 

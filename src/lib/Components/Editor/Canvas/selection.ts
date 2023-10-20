@@ -1,5 +1,5 @@
 import type { Slide } from "$lib";
-import type { SlideObject } from "$lib/slide_objects";
+import type { SlideObject } from "$lib/Components/Editor/Canvas/slide_objects";
 
 export type Selected =
     | ["slide", number, Slide]
@@ -18,7 +18,7 @@ export class Selection {
     public deselect() {
         this.selected = null;
     }
-    
+
     public get selected_slide(): [number, Slide] | null {
         if (!this.selected || this.selected[0] == "object") {
             return null;
@@ -34,5 +34,4 @@ export class Selection {
             return [this.selected[1], this.selected[2]];
         }
     }
-
 }

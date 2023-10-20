@@ -1,7 +1,5 @@
 <script lang="ts">
-    import type { SlideObject } from "$lib/slide_objects";
-    import { Image, Video } from "$lib/slide_objects/media";
-    import { Textbox } from "$lib/slide_objects/text";
+    import { SlideObject, Image, Video, Textbox } from "$lib/Components/Editor/Canvas/slide_objects";
 
     export let object: SlideObject;
 

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Icon from "$lib/Icon.svelte";
-    import MenuBar from "$lib/editor/MenuBar/MenuBar.svelte";
-    import ToolBar from "$lib/editor/ToolBar/ToolBar.svelte";
+    import Icon from "$lib/Components/Util/Icon.svelte";
+    import MenuBar from "$lib/Components/Editor/Header/MenuBar/MenuBar.svelte";
+    import ToolBar from "$lib/Components/Editor/Header/ToolBar/ToolBar.svelte";
     import i18n from "$lib/translation";
 
     export let title: String;

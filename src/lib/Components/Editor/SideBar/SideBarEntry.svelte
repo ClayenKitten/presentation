@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Slide } from "$lib";
-    import type { Selection } from "../selection";
+    import type { Selection } from "$lib/Components/Editor/Canvas/selection";
 
     export let i: number;
     export let slide: Slide;

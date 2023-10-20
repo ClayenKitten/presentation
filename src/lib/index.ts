@@ -1,4 +1,4 @@
-import type { SlideObject } from "./slide_objects";
+import type { SlideObject } from "$lib/Components/Editor/Canvas/slide_objects";
 import type { Color } from "./util";
 
 /** The whole information about the presentation */

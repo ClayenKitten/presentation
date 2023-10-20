@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Icon from "$lib/Icon.svelte";
+    import Icon from "$lib/Components/Util/Icon.svelte";
     import { query_presentation_infos } from "$lib/data";
 
     let presentations = query_presentation_infos();
