@@ -8,39 +8,45 @@
     import { query_presentation } from "$lib/data";
     import { writable } from "svelte/store";
     import { Slide } from "$lib";
-    import { HotkeyHandler, type ActionName } from "$lib/editor/actions/actions";
+    import {
+        HotkeyHandler,
+        type ActionName,
+    } from "$lib/editor/actions/actions";
     import { Selection } from "$lib/editor/selection";
+    import ActionModal from "$lib/modals/ActionModal.svelte";
 
     let id = Number($page.params["presentation_id"]);
     let _presentation = query_presentation(id);
     if (!_presentation) {
-        throw error(404, 'Not Found');
+        throw error(404, "Not Found");
     }
     let presentation = writable(_presentation);
     let current_slide = writable(0);
-    $: slide = $presentation.slides[$current_slide]
+    $: slide = $presentation.slides[$current_slide];
 
     let selection = new Selection();
     let collapsed = false;
 
+    let action_modal: ActionName | null = null;
+
     function handle_action(action_name: ActionName) {
         switch (action_name) {
-            case 'slide/new':
+            case "slide/new":
                 $presentation.slides.splice($current_slide + 1, 0, new Slide());
                 $current_slide += 1;
                 $presentation = $presentation;
                 break;
-            case 'slide/duplicate':
+            case "slide/duplicate":
                 $presentation.slides.splice($current_slide, 0, slide);
                 $current_slide += 1;
                 $presentation = $presentation;
                 break;
-            case 'slide/delete':
+            case "slide/delete":
                 $presentation.slides.splice($current_slide, 1);
                 $presentation = $presentation;
                 break;
-            case 'edit/delete':
-                if(selection.selected_slide) {
+            case "edit/delete":
+                if (selection.selected_slide) {
                     $presentation.slides.splice(selection.selected_slide[0], 1);
                     $presentation = $presentation;
                 } else if (selection.selected_object) {
@@ -50,6 +56,9 @@
                     $presentation = $presentation;
                 }
                 break;
+            case "insert/image":
+                action_modal = action_name;
+                break;
             default:
                 console.error(`Unhandled action name: ${action_name}`);
                 break;
@@ -57,7 +66,7 @@
     }
 
     function on_action(event: CustomEvent<ActionName>) {
-        handle_action(event.detail)
+        handle_action(event.detail);
     }
 
     function hotkey_handler(event: KeyboardEvent) {
@@ -68,27 +77,28 @@
     }
 </script>
 
-<svelte:window on:keyup={hotkey_handler}/>
+<svelte:window on:keyup={hotkey_handler} />
 
-<div id="editor" class:collapsed={collapsed}>
-    <Header title={$presentation.info.name} on:action={on_action}/>
+<ActionModal bind:action={action_modal} />
+<div id="editor" class:collapsed>
+    <Header title={$presentation.info.name} on:action={on_action} />
     <SideBar
         presentation={$presentation}
         bind:current_slide={$current_slide}
-        bind:collapsed={collapsed}
-        bind:selection={selection}
+        bind:collapsed
+        bind:selection
     />
-    <SlideView {slide} bind:selection={selection}/>
-    <SpeakerNotes bind:notes={slide.notes}/>
+    <SlideView {slide} bind:selection />
+    <SpeakerNotes bind:notes={slide.notes} />
 </div>
 
 <style lang="scss">
     #editor {
-		margin: 0;
-		height: 100vh;
+        margin: 0;
+        height: 100vh;
 
-		display: grid;
-		grid-template-rows: 110px 1fr 60px;
+        display: grid;
+        grid-template-rows: 110px 1fr 60px;
         grid-template-columns: min-content 1fr;
         grid-template-areas:
             "head head"
