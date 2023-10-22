@@ -1,5 +1,10 @@
 import type { Presentation, PresentationInfo } from "$lib";
-import { Image, Textbox } from "$lib/Components/Editor/Canvas/slide_objects";
+import {
+    type Textbox,
+    new_slide_object,
+    type Image,
+    type Shape,
+} from "$lib/Components/Editor/Canvas/slide_objects";
 
 const data: Record<number, Presentation> = {
     25: {
@@ -13,12 +18,36 @@ const data: Record<number, Presentation> = {
                 background: "#FFF",
                 notes: "egeg@",
                 objects: [
-                    new Textbox({ x: 0, y: 0 }, { w: 200, h: 300 }, "Cats are cool!"),
-                    new Image({ x: 0, y: 50 }, { w: 200, h: 200 }, new URL("https://placekitten.com/200/200")),
-                    new Image({ x: 0, y: 250 }, { w: 200, h: 100 }, new URL("https://placekitten.com/350/350")),
-                    new Image({ x: 0, y: 350 }, { w: 200, h: 100 }, new URL("https://placekitten.com/200/100")),
-                    new Image({ x: 200, y: 50 }, { w: 200, h: 400 }, new URL("https://placekitten.com/200/400")),
-                    new Image({ x: 400, y: 50 }, { w: 400, h: 400 }, new URL("https://placekitten.com/400/400")),
+                    new_slide_object(
+                        { kind: "textbox", text: "Cats are cool!" },
+                        { x: 0, y: 0 },
+                        { w: 200, h: 200 }
+                    ),
+                    new_slide_object(
+                        { kind: "image", src: "https://placekitten.com/200/200" },
+                        { x: 0, y: 50 },
+                        { w: 200, h: 200 }
+                    ),
+                    new_slide_object(
+                        { kind: "image", src: "https://placekitten.com/350/350" },
+                        { x: 0, y: 250 },
+                        { w: 200, h: 100 }
+                    ),
+                    new_slide_object(
+                        { kind: "image", src: "https://placekitten.com/200/100" },
+                        { x: 0, y: 350 },
+                        { w: 200, h: 100 }
+                    ),
+                    new_slide_object(
+                        { kind: "image", src: "https://placekitten.com/200/400" },
+                        { x: 200, y: 50 },
+                        { w: 200, h: 400 }
+                    ),
+                    new_slide_object(
+                        { kind: "image", src: "https://placekitten.com/400/400" },
+                        { x: 400, y: 50 },
+                        { w: 400, h: 400 }
+                    ),
                 ],
             },
             {
@@ -37,7 +66,8 @@ const data: Record<number, Presentation> = {
                 objects: [],
             },
             {
-                background: new URL("https://avatars.mds.yandex.net/i?id=60847d977ae0b84c810b23fa00bbbc24f6cbec8e-8564995-images-thumbs&n=13"),
+                background:
+                    "url(https://avatars.mds.yandex.net/i?id=60847d977ae0b84c810b23fa00bbbc24f6cbec8e-8564995-images-thumbs&n=13)",
                 notes: "",
                 objects: [],
             },
@@ -45,10 +75,19 @@ const data: Record<number, Presentation> = {
                 background: "#ABC",
                 notes: "",
                 objects: [
-                    new Image({ x: 0, y: 0 }, { w: 200, h: 300 }, new URL("https://placekitten.com/200/300")),
+                    new_slide_object(
+                        { kind: "shape", shape: "rect" },
+                        { x: 150, y: 0 },
+                        { w: 200, h: 300 }
+                    ),
+                    new_slide_object(
+                        { kind: "image", src: "https://placekitten.com/200/300" },
+                        { x: 0, y: 0 },
+                        { w: 200, h: 200 }
+                    ),
                 ],
             },
-        ]
+        ],
     },
     127: {
         info: {
@@ -61,7 +100,7 @@ const data: Record<number, Presentation> = {
                 background: "#FFF",
                 notes: "Empty slide!",
                 objects: [],
-            }
+            },
         ],
     },
     512: {
@@ -72,17 +111,18 @@ const data: Record<number, Presentation> = {
         styles: {},
         slides: [
             {
-                background: new URL("https://avatars.mds.yandex.net/i?id=60847d977ae0b84c810b23fa00bbbc24f6cbec8e-8564995-images-thumbs&n=13"),
+                background:
+                    "url(https://avatars.mds.yandex.net/i?id=60847d977ae0b84c810b23fa00bbbc24f6cbec8e-8564995-images-thumbs&n=13)",
                 notes: "",
                 objects: [],
-            }
+            },
         ],
     },
-}
+};
 
 export function query_presentation_infos(): Record<number, PresentationInfo> {
     let infos: Record<number, PresentationInfo> = {};
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
         let key_ = Number(key);
         infos[key_] = data[key_].info;
     });
@@ -90,5 +130,5 @@ export function query_presentation_infos(): Record<number, PresentationInfo> {
 }
 
 export function query_presentation(id: number): Presentation | null {
-    return (id in data ? data[id] : null);
+    return id in data ? data[id] : null;
 }

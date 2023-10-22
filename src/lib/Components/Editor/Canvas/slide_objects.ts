@@ -1,80 +1,39 @@
 import type { Style } from "$lib";
 import type { Position, Size } from "$lib/util";
 
-export class SlideObject {
+export type SlideObject = Location & SlideObjectKind;
+
+type SlideObjectKind = Textbox | Image | Video | Audio | QrCode | Shape;
+
+/**
+ * Ensures that each `SlideObjectKind` variant has `kind` property.
+ */
+const guard: SlideObjectKind extends { kind: string } ? null : never = null;
+
+export function new_slide_object(
+    kind: SlideObjectKind,
+    position: Position,
+    size: Size,
+    angle: number = 0
+): SlideObject {
+    return { position, size, angle, ...kind };
+}
+
+export type Location = {
     position: Position;
     size: Size;
-    angle: number = 0;
+    angle: number;
+};
 
-    constructor(position: Position, size: Size) {
-        this.position = position;
-        this.size = size;
-    }
-}
-
-export class Textbox extends SlideObject {
+export type Textbox = {
+    kind: "textbox";
     text: string;
+};
 
-    constructor(position: Position, size: Size, text: string) {
-        super(position, size);
-        this.text = text;
-    }
-}
+export type Fragment = { text: string; style?: Style };
 
-export type Fragment = { text: string, style?: Style };
-
-export class Image extends SlideObject {
-    src: URL;
-
-    constructor(position: Position, size: Size, src: URL) {
-        super(position, size);
-        this.src = src;
-    }
-}
-
-export class Video extends SlideObject {
-    src: URL;
-
-    constructor(position: Position, size: Size, src: URL) {
-        super(position, size);
-        this.src = src;
-    }
-}
-
-export class Audio extends SlideObject {
-    src: URL;
-
-    constructor(position: Position, size: Size, src: URL) {
-        super(position, size);
-        this.src = src;
-    }
-}
-
-export class QrCode extends SlideObject {
-    src: URL;
-
-    constructor(position: Position, size: Size, src: URL) {
-        super(position, size);
-        this.src = src;
-    }
-}
-
-export module Shape {
-    export class Shape extends SlideObject {
-        constructor(position: Position, size: Size) {
-            super(position, size);
-        }
-    }
-    
-    export class Rect extends Shape {
-        constructor(position: Position, size: Size) {
-            super(position, size);
-        }
-    }
-    
-    export class Oval extends Shape {
-        constructor(position: Position, size: Size) {
-            super(position, size);
-        }
-    }    
-}
+export type Image = { kind: "image"; src: string };
+export type Video = { kind: "video"; src: string };
+export type Audio = { kind: "audio"; src: string };
+export type QrCode = { kind: "qrcode"; src: string };
+export type Shape = { kind: "shape"; shape: "rect" | "oval" };

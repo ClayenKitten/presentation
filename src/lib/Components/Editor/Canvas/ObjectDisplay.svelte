@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { SlideObject, Image, Video, Textbox } from "$lib/Components/Editor/Canvas/slide_objects";
+    import type { SlideObject } from "$lib/Components/Editor/Canvas/slide_objects";
 
     export let object: SlideObject;
 
@@ -23,16 +23,26 @@
     style:transform
     on:click
 >
-    {#if object instanceof Textbox}
+    {#if object.kind == "textbox"}
         <p>{object.text}</p>
-    {:else if object instanceof Image}
+    {:else if object.kind == "image"}
         <!-- svelte-ignore a11y-missing-attribute -->
         <img src={object.src.toString()} />
-    {:else if object instanceof Video}
+    {:else if object.kind == "video"}
         <!-- svelte-ignore a11y-media-has-caption -->
         <video src={object.src.toString()} />
-    {:else if object instanceof Audio}
+    {:else if object.kind == "audio"}
         <audio src={object.src.toString()} />
+    {:else if object.kind == "shape"}
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            {#if object.shape == "rect"}
+                <rect x="0" y="0" width="100" height="100" />
+            {:else if object.shape == "oval"}
+                <ellipse cx="50" cy="50" rx="50" ry="50" />
+            {/if}
+        </svg>
+    {:else if object.kind == "qrcode"}
+        <a href={object.src}>qr-code</a>
     {/if}
 </div>
 
