@@ -1,10 +1,26 @@
 import type { Presentation, PresentationInfo } from "$lib";
-import {
-    type Textbox,
-    new_slide_object,
-    type Image,
-    type Shape,
-} from "$lib/Components/Editor/Canvas/slide_objects";
+import { new_slide_object } from "$lib/Components/Editor/Canvas/slide_objects";
+
+export async function query_presentation_infos() {
+    await sleep(1000);
+    let infos: Record<number, PresentationInfo> = {};
+    Object.keys(data).forEach(key => {
+        let key_ = Number(key);
+        infos[key_] = data[key_].info;
+    });
+    return infos;
+}
+
+export async function query_presentation(
+    id: number
+): Promise<Presentation | null> {
+    await sleep(500);
+    return id in data ? data[id] : null;
+}
+
+function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 const data: Record<number, Presentation> = {
     25: {
@@ -119,16 +135,3 @@ const data: Record<number, Presentation> = {
         ],
     },
 };
-
-export function query_presentation_infos(): Record<number, PresentationInfo> {
-    let infos: Record<number, PresentationInfo> = {};
-    Object.keys(data).forEach((key) => {
-        let key_ = Number(key);
-        infos[key_] = data[key_].info;
-    });
-    return infos;
-}
-
-export function query_presentation(id: number): Presentation | null {
-    return id in data ? data[id] : null;
-}

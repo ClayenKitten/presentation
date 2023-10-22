@@ -1,8 +1,8 @@
 <script lang="ts">
     import Icon from "$lib/Components/Util/Icon.svelte";
-    import { query_presentation_infos } from "$lib/data";
+    import type { PageData } from './$types';
 
-    let presentations = query_presentation_infos();
+    export let data: PageData;
 </script>
 
 <div id="wrapper">
@@ -20,12 +20,16 @@
         </menu>
     </header>
     <main>
-        {#each Object.entries(presentations) as [id, presentation]}
-            <a class="entry" href="/presentation/{id}">
-                <img/>
-                <h2>{presentation.name}</h2>
-            </a>
-        {/each}        
+        {#await data.presentations.inner}
+            <p>Loading...</p>
+        {:then presentations}
+            {#each Object.entries(presentations) as [id, presentation]}
+                <a class="entry" href="/presentation/{id}">
+                    <img/>
+                    <h2>{presentation.name}</h2>
+                </a>
+            {/each}
+        {/await}
     </main>
 </div>
 

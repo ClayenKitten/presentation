@@ -3,21 +3,16 @@
     import SideBar from "$lib/Components/Editor/SideBar/SideBar.svelte";
     import SlideView from "./SlideView.svelte";
     import SpeakerNotes from "$lib/Components/Editor/SpeakerNotes.svelte";
-    import { page } from "$app/stores";
-    import { error } from "@sveltejs/kit";
-    import { query_presentation } from "$lib/data";
     import { writable } from "svelte/store";
     import { Slide } from "$lib";
     import { HotkeyHandler, type ActionName } from "$lib/actions";
     import { Selection } from "$lib/Components/Editor/Canvas/selection";
     import ActionModal from "$lib/Components/Editor/Modals/ActionModal.svelte";
+    import type { PageData } from './$types';
 
-    let id = Number($page.params["presentation_id"]);
-    let _presentation = query_presentation(id);
-    if (!_presentation) {
-        throw error(404, "Not Found");
-    }
-    let presentation = writable(_presentation);
+	export let data: PageData;
+
+    let presentation = writable(data.presentation);
     let current_slide = writable(0);
     $: slide = $presentation.slides[$current_slide];
 
