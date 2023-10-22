@@ -40,6 +40,10 @@
             case "edit/delete":
                 if ($selection.selected_slide) {
                     $presentation.slides.splice($selection.selected_slide[0], 1);
+                    if ($presentation.slides.length == $selection.selected_slide[0]) {
+                        $current_slide -= 1;
+                        selection.select_slide($current_slide, slide);
+                    }
                     $presentation = $presentation;
                 } else if ($selection.selected_object) {
                     slide.objects.splice($selection.selected_object[0], 1);
