@@ -34,7 +34,7 @@
                 $presentation = $presentation;
                 break;
             case "slide/duplicate":
-                $presentation.slides.splice($current_slide, 0, slide);
+                $presentation.slides.splice($current_slide, 0, structuredClone(slide));
                 $current_slide += 1;
                 $presentation = $presentation;
                 break;
