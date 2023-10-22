@@ -8,8 +8,8 @@
     export let selection: Selection;
 
     $: style =
-        slide.background instanceof URL
-            ? `background-image: url(${slide.background})`
+        slide.background.startsWith("url")
+            ? `background-image: ${slide.background}`
             : `background-color: ${slide.background}`;
 
     let drag_just_ended = false;

@@ -14,8 +14,8 @@
         selection = selection;
     }
 
-    $: style = slide.background instanceof URL
-        ? `background-image: url(${slide.background})`
+    $: style = slide.background.startsWith("url")
+        ? `background-image: ${slide.background}`
         : `background-color: ${slide.background}`;
 </script>
 
