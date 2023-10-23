@@ -9,6 +9,7 @@
     import ActionModal from "$lib/Components/Editor/Modals/ActionModal.svelte";
     import type { PageData } from "./$types";
     import { PresentationStore } from "$lib/stores/presentation";
+    import { clipboard } from "$lib/stores/clipboard";
 
     export let data: PageData;
 
@@ -21,6 +22,8 @@
 
     let collapsed = false;
     let action_modal: ActionName | null = null;
+
+    $: { $current_slide; clipboard.changed_slide(); };
 
     function handle_action(action_name: ActionName) {
         switch (action_name) {
@@ -48,6 +51,38 @@
                 break;
             case "insert/image":
                 action_modal = action_name;
+                break;
+            case "edit/copy":
+                if ($selection.selected_object) {
+                    clipboard.put_object($selection.selected_object[1]);
+                } else if ($selection.selected_slide) {
+                    clipboard.put_slide($selection.selected_slide[1]);
+                }
+                break;
+            case "edit/cut":
+                if ($selection.selected_object) {
+                    clipboard.put_object($selection.selected_object[1]);
+                    handle_action("edit/delete");
+                } else if ($selection.selected_slide) {
+                    clipboard.put_slide($selection.selected_slide[1]);
+                    handle_action("edit/delete");
+                }
+                break;
+            case "edit/paste":
+                if (!$clipboard) break;
+                if ($clipboard[0] == "object") {
+                    let object = slide.add_object($clipboard[1]);
+                    selection.select_object($slide.objects.length - 1, object);
+
+                    let offset = clipboard.object_offset;
+                    object.position.x += offset.x;
+                    object.position.y += offset.y;
+                } else {
+                    let slide = presentation.insert_slide($current_slide + 1, $clipboard[1]);
+                    selection.select_slide($presentation.slides.length - 1, slide);
+                    $current_slide += 1;
+                }
+                clipboard.pasted();
                 break;
             default:
                 console.error(`Unhandled action name: ${action_name}`);

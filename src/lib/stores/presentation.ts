@@ -56,6 +56,21 @@ export class PresentationStore {
         });
     }
 
+    /**
+     * Inserts slide in presentation.
+     * @param index Index to insert slide in.
+     * @param slide Slide to be inserted.
+     * @returns Inserted slide.
+     */
+    public insert_slide(index: number, slide: Slide): Slide {
+        let inserted_slide = structuredClone(slide);
+        this.presentation.update((presentation) => {
+            presentation.slides.splice(index, 0, inserted_slide);
+            return presentation;
+        });
+        return inserted_slide;
+    }
+
     public duplicate_slide(index: number) {
         this.presentation.update((presentation) => {
             let slide = presentation.slides[index];

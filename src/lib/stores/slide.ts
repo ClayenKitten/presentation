@@ -54,6 +54,20 @@ export class SlideStore {
         });
     }
 
+    /**
+     * Adds an object on slide.
+     * @param object Object to insert.
+     * @returns Inserted object.
+     */
+    public add_object(object: SlideObject): SlideObject {
+        let inserted_object = structuredClone(object);
+        this.slide.update((slide) => {
+            slide.objects.push(inserted_object);
+            return slide;
+        });
+        return inserted_object;
+    }
+
     public duplicate_object(index: number) {
         this.slide.update((slide) => {
             let object = slide.objects[index];
