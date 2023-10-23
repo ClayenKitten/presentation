@@ -19,7 +19,7 @@
                 {i}
                 slide={presentation.slides[i]}
                 bind:current_slide={current_slide}
-                bind:selection={selection}
+                {selection}
             />
         {/each}
     </ol>

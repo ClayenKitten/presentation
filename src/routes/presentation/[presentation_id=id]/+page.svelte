@@ -81,9 +81,9 @@
         presentation={$presentation}
         bind:current_slide={$current_slide}
         bind:collapsed
-        bind:selection
+        {selection}
     />
-    <SlideView {slide} bind:selection />
+    <SlideView {slide} {selection} />
     <SpeakerNotes bind:notes={slide.notes} />
 </div>
 

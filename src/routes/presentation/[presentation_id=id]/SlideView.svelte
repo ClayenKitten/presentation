@@ -7,7 +7,7 @@
     export let selection: Selection;
 </script>
 <main>
-    <Canvas {slide} bind:selection={selection} />
+    <Canvas {slide} {selection} />
 </main>
 
 <style lang="scss">

@@ -7,17 +7,15 @@
     export let slide: Slide;
     export let selection: Selection;
 
-    $: style =
-        slide.background.startsWith("url")
-            ? `background-image: ${slide.background}`
-            : `background-color: ${slide.background}`;
-
     let drag_just_ended = false;
+    $: style = slide.background.startsWith("url")
+        ? `background-image: ${slide.background}`
+        : `background-color: ${slide.background}`;
+    $: selected_object = $selection.selected_object;
 
     function on_selected_object(i: number) {
-        if (!selection.selected_object || selection.selected_object[0] != i) {
+        if (!selected_object || selected_object[0] != i) {
             selection.select_object(i, slide.objects[i]);
-            selection = selection;
         }
     }
     function reset_selection(event: MouseEvent) {
@@ -25,22 +23,17 @@
             drag_just_ended = false;
             return;
         }
-        if (selection.selected_object == null) {
+        if (!selected_object) {
             return;
         }
         if (event?.target instanceof Element) {
             if (!event?.target.matches(".object, header *")) {
                 selection.deselect();
-                selection = selection;
             }
         }
     }
-    $: {
-        selection.selected_object;
-        (() => {
-            slide.objects = slide.objects;
-        })();
-    }
+
+    $: if (drag_just_ended) { slide = slide; }
 </script>
 
 <svelte:body on:click={reset_selection} />
@@ -48,11 +41,8 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <article id="canvas" {style}>
-    {#if selection.selected_object}
-        <Frame
-            bind:object={selection.selected_object[1]}
-            on:drag_end={(_) => (drag_just_ended = true)}
-        />
+    {#if selected_object}
+        <Frame bind:object={selected_object[1]} on:drag_end={(_) => (drag_just_ended = true)} />
     {/if}
     {#each slide.objects as object, i}
         <ObjectDisplay {object} on:click={() => on_selected_object(i)} />
