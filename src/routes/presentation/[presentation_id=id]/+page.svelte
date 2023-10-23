@@ -4,51 +4,46 @@
     import SlideView from "./SlideView.svelte";
     import SpeakerNotes from "$lib/Components/Editor/SpeakerNotes.svelte";
     import { writable } from "svelte/store";
-    import { Slide } from "$lib";
     import { HotkeyHandler, type ActionName } from "$lib/actions";
     import { Selection } from "$lib/Components/Editor/Canvas/selection";
     import ActionModal from "$lib/Components/Editor/Modals/ActionModal.svelte";
-    import type { PageData } from './$types';
+    import type { PageData } from "./$types";
+    import { PresentationStore } from "$lib/stores/presentation";
 
-	export let data: PageData;
+    export let data: PageData;
 
-    let presentation = writable(data.presentation);
     let current_slide = writable(0);
-    $: slide = $presentation.slides[$current_slide];
+    let presentation = new PresentationStore(data.presentation);
+    $: slide = presentation.slide($current_slide);
+    $: notes = slide.notes;
 
     let selection = new Selection();
-    let collapsed = false;
 
+    let collapsed = false;
     let action_modal: ActionName | null = null;
 
     function handle_action(action_name: ActionName) {
         switch (action_name) {
             case "slide/new":
-                $presentation.slides.splice($current_slide + 1, 0, new Slide());
+                presentation.new_slide($current_slide + 1);
                 $current_slide += 1;
-                $presentation = $presentation;
                 break;
             case "slide/duplicate":
-                $presentation.slides.splice($current_slide, 0, structuredClone(slide));
+                presentation.duplicate_slide($current_slide);
                 $current_slide += 1;
-                $presentation = $presentation;
                 break;
             case "slide/delete":
-                $presentation.slides.splice($current_slide, 1);
-                $presentation = $presentation;
+                if (presentation.slide_number == $current_slide) {
+                    $current_slide -= 1;
+                }
+                presentation.delete_slide($current_slide);
                 break;
             case "edit/delete":
                 if ($selection.selected_slide) {
-                    $presentation.slides.splice($selection.selected_slide[0], 1);
-                    if ($presentation.slides.length == $selection.selected_slide[0]) {
-                        $current_slide -= 1;
-                        selection.select_slide($current_slide, slide);
-                    }
-                    $presentation = $presentation;
+                    handle_action("slide/delete");
                 } else if ($selection.selected_object) {
-                    slide.objects.splice($selection.selected_object[0], 1);
+                    slide.delete_object($selection.selected_object[0]);
                     selection.deselect();
-                    $presentation = $presentation;
                 }
                 break;
             case "insert/image":
@@ -84,7 +79,7 @@
         {selection}
     />
     <SlideView {slide} {selection} />
-    <SpeakerNotes bind:notes={slide.notes} />
+    <SpeakerNotes bind:notes={$notes} />
 </div>
 
 <style lang="scss">

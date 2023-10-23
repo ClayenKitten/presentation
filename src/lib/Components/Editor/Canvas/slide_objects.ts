@@ -3,7 +3,7 @@ import type { Position, Size } from "$lib/util";
 
 export type SlideObject = Location & SlideObjectKind;
 
-type SlideObjectKind = Textbox | Image | Video | Audio | QrCode | Shape;
+export type SlideObjectKind = Textbox | Image | Video | Audio | QrCode | Shape;
 
 /**
  * Ensures that each `SlideObjectKind` variant has `kind` property.

@@ -1,21 +1,21 @@
 <script lang="ts">
-    import type { Slide } from "$lib";
+    import type { SlideStore } from "$lib/stores/slide";
     import ObjectDisplay from "./ObjectDisplay.svelte";
     import type { Selection } from "$lib/Components/Editor/Canvas/selection";
     import Frame from "./Frame.svelte";
 
-    export let slide: Slide;
+    export let slide: SlideStore;
     export let selection: Selection;
 
     let drag_just_ended = false;
-    $: style = slide.background.startsWith("url")
-        ? `background-image: ${slide.background}`
-        : `background-color: ${slide.background}`;
+    $: style = $slide.background.startsWith("url")
+        ? `background-image: ${$slide.background}`
+        : `background-color: ${$slide.background}`;
     $: selected_object = $selection.selected_object;
 
     function on_selected_object(i: number) {
         if (!selected_object || selected_object[0] != i) {
-            selection.select_object(i, slide.objects[i]);
+            selection.select_object(i, $slide.objects[i]);
         }
     }
     function reset_selection(event: MouseEvent) {
@@ -44,7 +44,7 @@
     {#if selected_object}
         <Frame bind:object={selected_object[1]} on:drag_end={(_) => (drag_just_ended = true)} />
     {/if}
-    {#each slide.objects as object, i}
+    {#each $slide.objects as object, i}
         <ObjectDisplay {object} on:click={() => on_selected_object(i)} />
     {/each}
 </article>
