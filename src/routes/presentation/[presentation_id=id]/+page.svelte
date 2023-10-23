@@ -5,7 +5,7 @@
     import SpeakerNotes from "$lib/Components/Editor/SpeakerNotes.svelte";
     import { writable } from "svelte/store";
     import { HotkeyHandler, type ActionName } from "$lib/actions";
-    import { Selection } from "$lib/Components/Editor/Canvas/selection";
+    import { SelectionStore } from "$lib/stores/selection";
     import ActionModal from "$lib/Components/Editor/Modals/ActionModal.svelte";
     import type { PageData } from "./$types";
     import { PresentationStore } from "$lib/stores/presentation";
@@ -17,7 +17,7 @@
     $: slide = presentation.slide($current_slide);
     $: notes = slide.notes;
 
-    let selection = new Selection();
+    let selection = new SelectionStore();
 
     let collapsed = false;
     let action_modal: ActionName | null = null;

@@ -1,13 +1,13 @@
 <script lang="ts">
     import type { Presentation } from "$lib";
     import Icon from "$lib/Components/Util/Icon.svelte";
-    import type { Selection } from "$lib/Components/Editor/Canvas/selection";
+    import type { SelectionStore } from "$lib/stores/selection";
     import SideBarPreview from "./SideBarEntry.svelte";
 
     export let presentation: Presentation;
 
     export let current_slide: number;
-    export let selection: Selection;
+    export let selection: SelectionStore;
 
     export let collapsed: boolean;
 </script>

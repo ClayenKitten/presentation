@@ -1,11 +1,11 @@
 <script lang="ts">
     import type { SlideStore } from "$lib/stores/slide";
     import ObjectDisplay from "./ObjectDisplay.svelte";
-    import type { Selection } from "$lib/Components/Editor/Canvas/selection";
+    import type { SelectionStore } from "$lib/stores/selection";
     import Frame from "./Frame.svelte";
 
     export let slide: SlideStore;
-    export let selection: Selection;
+    export let selection: SelectionStore;
 
     let drag_just_ended = false;
     $: style = $slide.background.startsWith("url")

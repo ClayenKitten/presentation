@@ -1,12 +1,12 @@
 <script lang="ts">
     import type { Slide } from "$lib";
-    import type { Selection } from "$lib/Components/Editor/Canvas/selection";
+    import type { SelectionStore } from "$lib/stores/selection";
 
     export let i: number;
     export let slide: Slide;
 
     export let current_slide: number;
-    export let selection: Selection;
+    export let selection: SelectionStore;
 
     function on_click() {
         current_slide = i;

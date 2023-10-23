@@ -3,7 +3,25 @@ import type { SlideObject } from "$lib/Components/Editor/Canvas/slide_objects";
 import type { Subscriber } from "svelte/motion";
 import { writable, type Writable, derived } from "svelte/store";
 
-export class Selected {
+export class SelectionStore {
+    private selected: Writable<Selection> = writable(new Selection(null));
+
+    public select_slide(index: number, slide: Slide) {
+        this.selected.set(new Selection(["slide", index, slide]));
+    }
+    public select_object(index: number, object: SlideObject) {
+        this.selected.set(new Selection(["object", index, object]));
+    }
+    public deselect() {
+        this.selected.set(new Selection(null));
+    }
+
+    public subscribe(run: Subscriber<Selection>) {
+        return this.selected.subscribe(run);
+    }
+}
+
+export class Selection {
     private selected: SelectedData = null;
 
     constructor(data: SelectedData) {
@@ -28,21 +46,3 @@ export class Selected {
 }
 
 type SelectedData = ["slide", number, Slide] | ["object", number, SlideObject] | null;
-
-export class Selection {
-    private selected: Writable<Selected> = writable(new Selected(null));
-
-    public select_slide(index: number, slide: Slide) {
-        this.selected.set(new Selected(["slide", index, slide]));
-    }
-    public select_object(index: number, object: SlideObject) {
-        this.selected.set(new Selected(["object", index, object]));
-    }
-    public deselect() {
-        this.selected.set(new Selected(null));
-    }
-
-    public subscribe(run: Subscriber<Selected>) {
-        return this.selected.subscribe(run);
-    }
-}
