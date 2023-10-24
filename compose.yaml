@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    depends_on:
+      - mysql
+    environment:
+      NODE_ENV: production
+    ports:
+      - 127.0.0.1:3000:3000
+    networks:
+      - web
+      - internal
+    restart: always
+
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - mysql-data:/var/lib/mysql
+    env_file:
+      - db.env
+    ports:
+      - 1433:33060
+    networks:
+      - internal
+    restart: always
+
+  adminer:
+    image: adminer
+    depends_on:
+      - mysql
+    environment:
+      ADMINER_DESIGN: pepa-linha-dark
+    ports:
+      - 10000:8080
+    networks:
+      - web
+      - internal
+    restart: always
+
+volumes:
+  mysql-data:
+
+networks:
+  web:
+    driver: bridge
+  internal:
+    driver: bridge
+    internal: true
