@@ -13,5 +13,7 @@ WORKDIR /
 EXPOSE 3000
 COPY --from=build ./build ./build
 COPY package.json .
+COPY package-lock.json .
+RUN npm ci --omit dev
 
 CMD ["node", "./build"]
