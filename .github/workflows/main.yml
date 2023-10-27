@@ -11,14 +11,14 @@ jobs:
     steps:
     - name: Deploy
       uses: appleboy/ssh-action@v1.0.0
-      env:
-        APP_TARGET: prod
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          cd presentation
-          git pull
+          cd ~/presentation
+          git fetch
+          git reset --hard origin/master
+          export APP_TARGET=prod
           docker compose up -d --build
